@@ -19,10 +19,10 @@ public class GameResponse {
   private int pages;
 
   /** Indica si hay más páginas de resultados en adelante */
-  private Boolean next;
+  private boolean next;
 
   /** Indica si hay más páginas de resultados hacia atrás */
-  private Boolean previous;
+  private boolean previous;
 
   /** Página de juegos */
   private List<Game> results;

@@ -1,7 +1,7 @@
 package models.feign.client;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import feign.Headers;
 import feign.Param;
@@ -36,9 +36,9 @@ public interface GameClient {
    * 
    * @return Game
    */
-  @RequestLine("GET /games/api-id/{apiId}?secretKey={secretKey}")
+  @RequestLine("POST /games/api-id/{apiId}?secretKey={secretKey}")
   @Headers("Content-Type: application/json")
-  Game getGameByApiId(@Param("secretKey") String secretKey, @Param("apiId") Long apiId, Set<Screenshot> screenshots);
+  Game getGameByApiId(@Param("secretKey") String secretKey, @Param("apiId") Long apiId, List<Screenshot> screenshots);
 
   /**
    * Consulta todos los juegos cuyo ID de la API se encuentre entre los dados
@@ -51,6 +51,20 @@ public interface GameClient {
   @RequestLine("GET /games/internal-api-ids?secretKey={secretKey}&apiIds={apiIds}")
   @Headers("Content-Type: application/json")
   GameResponse getGamesByApiIdIn(@Param("secretKey") String secretKey, @Param("apiIds") String apiIds);
+
+  /**
+   * Consulta todos los juegos creados por usuarios del sistema
+   * 
+   * @param secretKey Clave secreta para la comunicación
+   * @param page      Número de página a consultar
+   * @param pageSize  Tamaño de página
+   * 
+   * @return GameResponse
+   */
+  @RequestLine("GET /games/internal-user-created?secretKey={secretKey}&page={page}&pageSize={pageSize}")
+  @Headers("Content-Type: application/json")
+  GameResponse getGamesByUserCreated(@Param("secretKey") String secretKey, @Param("page") String page,
+      @Param("pageSize") String pageSize);
 
   /**
    * Obtiene todos los juegos recomendados para un usuario basado en sus juegos asociados. En caso de no tener juegos
@@ -72,9 +86,10 @@ public interface GameClient {
    * <li>gameName: Nombre o parte del nombre del juego (IgnoreCase)</li>
    * <li>genreIds: Cadena de caracteres con los IDs de los géneros, separados por coma</li>
    * <li>platformIds: Cadena de caracteres con los IDs de las plataformas, separados por coma</li>
+   * <li>userCreated: Booleano que indica si el juego es creado por usuarios del sistema o no</li>
    * <li>orderField: Campo de ordenación. Será: gameNameAsc, gameNameDesc, rating, releaseDate, metacritic. Por defecto
    * será releaseDate</li>
-   * <li>page: Será 0 por defecto en caso de no ser especificado</li>
+   * <li>page: Será 1 por defecto en caso de no ser especificado</li>
    * <li>size: Será 10 en caso de no ser especificado</li>
    * </ul>
    * 
@@ -88,30 +103,6 @@ public interface GameClient {
   GameResponse getGamesFromDb(@Param("secretKey") String secretKey, @QueryMap Map<String, Object> optionalParams);
 
   /**
-   * Obtiene todos los juegos de la base de datos filtrados por parámetros opcionales y paginados cuyo ID de la API no
-   * se encuentre entre los aportados. Los parámetros opcionales pueden ser:
-   * <ul>
-   * <li>gameName: Nombre o parte del nombre del juego (IgnoreCase)</li>
-   * <li>genreIds: Cadena de caracteres con los IDs de los géneros, separados por coma</li>
-   * <li>platformIds: Cadena de caracteres con los IDs de las plataformas, separados por coma</li>
-   * <li>orderField: Campo de ordenación. Será: gameNameAsc, gameNameDesc, rating, releaseDate, metacritic. Por defecto
-   * será releaseDate</li>
-   * <li>page: Será 0 por defecto en caso de no ser especificado</li>
-   * <li>size: Será 10 en caso de no ser especificado</li>
-   * </ul>
-   * 
-   * @param secretKey      Clave secreta para la comunicación
-   * @param apiIdsNotIn    IDs de la API entre los que
-   * @param optionalParams Parámetros opcionales para la consulta
-   * 
-   * @return GameResponse
-   */
-  @RequestLine("GET /games/internal-api-not-in?secretKey={secretKey}&apiIdsNotIn={apiIdsNotIn}")
-  @Headers("Content-Type: application/json")
-  GameResponse getGamesFromDbApiNotIn(@Param("secretKey") String secretKey, @Param("apiIdsNotIn") String apiIdsNotIn,
-      @QueryMap Map<String, Object> optionalParams);
-
-  /**
    * Obtiene todos los juegos de API filtrados por parámetros opcionales y paginados. Los parámetros opcionales pueden
    * ser:
    * <ul>
@@ -120,8 +111,8 @@ public interface GameClient {
    * <li>platformIds: Cadena de caracteres con los IDs de las plataformas, separados por coma</li>
    * <li>orderField: Campo de ordenación. Será: name, released, added, created, updated, rating, metacritic en caso de
    * ser orden ascendente, o con un prefijo - en caso de ser descendente. El valor por defecto será -released</li>
-   * <li>page: Será 0 por defecto en caso de no ser especificado</li>
-   * <li>size: Será 10 en caso de no ser especificado</li>
+   * <li>page: Será 1 por defecto en caso de no ser especificado</li>
+   * <li>page_size: Será 10 en caso de no ser especificado</li>
    * </ul>
    * 
    * @param secretKey      Clave secreta para la comunicación

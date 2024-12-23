@@ -129,13 +129,12 @@ public interface UserClient {
       @Param("friendId") Long friendId);
 
   /**
-   * Elimina la amistad entre dos usuarios del sistema
+   * Elimina un usuario del sistema
    * 
    * @param secretKey Clave secreta para la comunicación
-   * @param userId    ID del usuario
-   * @param friendId  ID de la persona que ha enviado la petición de amistad
+   * @param appUserId ID del usuario
    */
   @RequestLine("DELETE /users/{appUserId}")
   @Headers("Content-Type: application/json")
-  void deleteUser(@Param("appUserId") Long appUserId);
+  void deleteUser(@Param("secretKey") String secretKey, @Param("appUserId") Long appUserId);
 }

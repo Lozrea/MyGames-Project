@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 import application.MainApp;
 import controllers.utils.AlertUtils;
-import controllers.utils.ComponentUtils;
+import controllers.utils.components.Components;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -121,6 +121,7 @@ public class RegisterController implements Initializable {
   @FXML
   private TextField txtUsername;
 
+  /** Constructor. Establece las acciones con delay */
   public RegisterController() {
 
     // Configuración de eventos con delay para los campos
@@ -137,7 +138,7 @@ public class RegisterController implements Initializable {
     Image image = new Image(RegisterController.class.getResourceAsStream(String.format(AVATAR_BASE_PATH, 0)));
     imageSelector.setImage(image);
 
-    spinner = ComponentUtils.getSpinner();
+    spinner = Components.getSpinner();
   }
 
   @FXML
@@ -181,8 +182,7 @@ public class RegisterController implements Initializable {
       AppUser user = getRegisteredUser();
       mainApp.setAppUser(user);
 
-      System.out.println(user.getName());
-      // TODO -> Cuando esté lista HomeView, redirigir. Mientras, se deja el syso para testing->mainApp.initHomeView();
+      mainApp.initHomeView();
 
       // Error de validación de usuario
     } catch (IllegalArgumentException e) {

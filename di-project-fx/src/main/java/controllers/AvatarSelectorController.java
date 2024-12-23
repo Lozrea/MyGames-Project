@@ -24,6 +24,7 @@ public class AvatarSelectorController implements Initializable {
   /** Número de avatares por cada fila */
   private static final int AVATARS_PER_ROW = 4;
 
+  /** Número de avatar seleccionado */
   private int avatarNumber;
 
   /** Controlador del registro */
@@ -49,12 +50,17 @@ public class AvatarSelectorController implements Initializable {
   void handleImageMouseClicked(ImageView imageViewSelected, int avatarNumber) {
 
     this.avatarNumber = avatarNumber;
-    registerController.setAvatarViewImage(avatarNumber);
+    registerController.setAvatarViewImage(this.avatarNumber);
 
     // TODO hay que añadir aquí un borde por css a la imagen para saber que está marcada
 
   }
 
+  /**
+   * Setter - registerController
+   * 
+   * @param registerController Controlador de la página de registro
+   */
   public void setRegisterController(RegisterController registerController) {
     this.registerController = registerController;
   }

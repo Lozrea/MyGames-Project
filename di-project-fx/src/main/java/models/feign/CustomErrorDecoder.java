@@ -18,6 +18,7 @@ public class CustomErrorDecoder implements ErrorDecoder {
   /** Mapeador de clases */
   private final ObjectMapper objectMapper;
 
+  /** Constructor */
   public CustomErrorDecoder() {
     this.objectMapper = new ObjectMapper();
 
