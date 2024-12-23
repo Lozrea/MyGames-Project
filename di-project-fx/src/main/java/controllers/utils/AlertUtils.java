@@ -28,4 +28,30 @@ public class AlertUtils {
     return alert;
   }
 
+  /**
+   * Genera una alerta preparada para indicar al usuario que se ha añadido un nuevo juego a la biblioteca
+   * 
+   * @return Alert
+   */
+  public static Alert getAddedGameToLibraryAlert() {
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle("Juego añadido a la biblioteca");
+    alert.setHeaderText("Se ha añadido un nuevo juego a la biblioteca");
+
+    return alert;
+  }
+
+  /**
+   * Genera una alerta preparada para indicar al usuario que se ha eliminado un juego de la biblioteca
+   * 
+   * @return Alert
+   */
+  public static Alert getDeletedGameFromLibraryAlert() {
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle("Juego eliminado de la biblioteca");
+    alert.setHeaderText("Juego eliminado de la biblioteca");
+
+    return alert;
+  }
+
 }

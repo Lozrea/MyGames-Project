@@ -27,6 +27,13 @@
             <version>21.0.5</version>
         </dependency>
 
+        <!-- Componentes extra para JavaFX -->
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.1.2</version>
+        </dependency>
+
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>

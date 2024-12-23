@@ -1,22 +1,40 @@
 package application;
 
 import java.io.IOException;
+import java.util.List;
 
+import controllers.ExploreViewController;
+import controllers.HomeViewController;
 import controllers.LoginController;
+import controllers.NavigationController;
 import controllers.RecoverPasswordController;
 import controllers.RegisterController;
+import controllers.utils.Page;
+import controllers.utils.components.ToggleSwitch;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import models.AppUser;
+import models.Game;
+import models.Genre;
+import models.PlatformSimple;
+import models.Screenshot;
 import models.feign.FeignClientFactory;
 import models.feign.OpenFeignConstants;
+import models.feign.client.GameClient;
 import models.feign.client.UserClient;
+import models.feign.client.UserGameClient;
+import models.feign.constants.GameSearchParams;
 
 /** Aplicación principal */
 public class MainApp extends Application {
@@ -27,11 +45,26 @@ public class MainApp extends Application {
   /** Cliente de usuarios */
   private UserClient userClient;
 
+  /** Cliente de juegos */
+  private GameClient gameClient;
+
+  /** Cliente de relaciones usuario - juego */
+  private UserGameClient userGameClient;
+
   /** Cliente loggeado / registrado de la aplicación */
   private AppUser appUser;
 
   /** Tamaño de la pantalla */
   private Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+
+  /** Lista de plataformas disponibles en el sistema */
+  private List<PlatformSimple> platforms;
+
+  /** Lista de géneros disponibles en el sistema */
+  private List<Genre> genres;
+
+  /** Toggle Switch para la elección del tema claro / oscuro. Se mantendrá entre páginas */
+  private StackPane toggleSwitch;
 
   /**
    * Método main. Inicializa la aplicación
@@ -46,7 +79,11 @@ public class MainApp extends Application {
   public void start(Stage primaryStage) {
 
     this.primaryStage = primaryStage;
+
+    // Carga de los clientes principales
     userClient = FeignClientFactory.createUserClient(OpenFeignConstants.BASE_URL);
+    gameClient = FeignClientFactory.createGameClient(OpenFeignConstants.BASE_URL);
+    userGameClient = FeignClientFactory.createUserGameClient(OpenFeignConstants.BASE_URL);
 
     // Configuración inicial previa
     primaryStage.setTitle("MyGames");
@@ -103,6 +140,7 @@ public class MainApp extends Application {
     }
   }
 
+  /** Carga la vista de la recuperación de contraseña */
   public void initRecoverPasswordView() {
 
     try {
@@ -129,15 +167,54 @@ public class MainApp extends Application {
   public void initHomeView() {
 
     try {
-      FXMLLoader loader = new FXMLLoader();
+      FXMLLoader loaderMain = new FXMLLoader();
+      FXMLLoader loaderNav = new FXMLLoader();
 
-      loader.setLocation(MainApp.class.getResource("/views/Home.fxml"));
-      Parent homeLayout = (BorderPane) loader.load();
+      // ScrollPane para la biblioteca
+      ScrollPane scrollLayout = new ScrollPane();
+      scrollLayout.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-      // Controlador de la ventana Home
-      // TODO -> Añadir controlador al Home cuando exista y pasar appUser
+      // SplitPane interno
+      SplitPane splitLayout = new SplitPane();
+      scrollLayout.setContent(splitLayout);
 
-      Scene scene = new Scene(homeLayout);
+      // Navegación y Home
+      loaderNav.setLocation(MainApp.class.getResource("/views/Navigation.fxml"));
+      GridPane navigationLayout = (GridPane) loaderNav.load();
+
+      navigationLayout.setAlignment(Pos.TOP_LEFT);
+
+      loaderMain.setLocation(MainApp.class.getResource("/views/HomeView.fxml"));
+      BorderPane homeLayout = (BorderPane) loaderMain.load();
+
+      splitLayout.getItems().addAll(navigationLayout, homeLayout);
+
+      // Controladores
+      initHomeViewControllers(loaderMain, loaderNav);
+
+      Scene scene = new Scene(scrollLayout, screenSize.getWidth(), screenSize.getHeight());
+      primaryStage.setScene(scene);
+      primaryStage.show();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /** Carga la vista de la pantalla de exploración */
+  public void initExploreView() {
+
+    try {
+      FXMLLoader loaderMain = new FXMLLoader();
+      FXMLLoader loaderNav = new FXMLLoader();
+
+      ScrollPane scrollLayout = initBaseExploreViews(loaderMain, loaderNav);
+
+      // Controladores
+      initExploreViewController(loaderMain, null);
+      initNavigationController(loaderNav, Page.EXPLORE);
+
+      Scene scene = new Scene(scrollLayout, screenSize.getWidth(), screenSize.getHeight());
       primaryStage.setScene(scene);
       primaryStage.show();
 
@@ -147,12 +224,189 @@ public class MainApp extends Application {
   }
 
   /**
+   * Carga la vista de la pantalla de exploración con una búsqueda preestablecida
+   * 
+   * @param searchText Texto de búsqueda
+   */
+  public void initExploreView(String searchText) {
+
+    try {
+      FXMLLoader loaderMain = new FXMLLoader();
+      FXMLLoader loaderNav = new FXMLLoader();
+
+      ScrollPane scrollLayout = initBaseExploreViews(loaderMain, loaderNav);
+
+      // Controladores
+      initExploreViewController(loaderMain, searchText);
+      initNavigationController(loaderNav, Page.EXPLORE);
+
+      Scene scene = new Scene(scrollLayout, screenSize.getWidth(), screenSize.getHeight());
+      primaryStage.setScene(scene);
+      primaryStage.show();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Inicializa la vista de un juego
+   * 
+   * @param id ID del juego
+   */
+  public void initGameView(Long id) {
+    // TODO APERTURA DE LA VISTA JUEGO
+  }
+
+  /**
+   * Inicializa la vista de un juego obtenido de forma externa a la API
+   * 
+   * @param externalId  ID externo a la API
+   * @param screenshots Capturas de pantalla
+   */
+  public void initGameView(Long externalId, List<Screenshot> screenshots) {
+
+    Game game = gameClient.getGameByApiId(OpenFeignConstants.SECRET_KEY, externalId, screenshots);
+    initGameView(game.getId());
+  }
+
+  /**
    * Setter - AppUser
    * 
    * @param appUser Usuario loggeado en la aplicación
    */
   public void setAppUser(AppUser appUser) {
     this.appUser = appUser;
+  }
+
+  /**
+   * Setter - plataformas disponibles
+   * 
+   * @param platforms Lista de plataformas a settear
+   */
+  public void setPlatforms(List<PlatformSimple> platforms) {
+    this.platforms = platforms;
+  }
+
+  /**
+   * Setter - géneros disponibles
+   * 
+   * @param genres Lista de géneros a settear
+   */
+  public void setGenres(List<Genre> genres) {
+    this.genres = genres;
+  }
+
+  /**
+   * Inicializa los controladores necesarios para la vista principal
+   * 
+   * @param loaderMain Loader del controlador para el home
+   * @param loaderNav  Loader del controlador para la navegación
+   */
+  private void initHomeViewControllers(FXMLLoader loaderMain, FXMLLoader loaderNav) {
+
+    // Carga del controlador home
+    HomeViewController homeViewController = loaderMain.getController();
+    homeViewController.setAppUser(appUser);
+    homeViewController.setMainApp(this);
+    homeViewController.setUserGameClient(userGameClient);
+    homeViewController.setGameClient(gameClient);
+    homeViewController.setSearchBarTimeLine();
+
+    // Carga de datos
+    if (platforms == null || genres == null || toggleSwitch == null) {
+      homeViewController.stablishPlatformsAndGenres();
+
+      // TODO A falta de tener los temas implementados
+      toggleSwitch = ToggleSwitch.getToggleSwitch(false);
+    }
+
+    homeViewController.chargeData();
+
+    initNavigationController(loaderNav, Page.HOME);
+  }
+
+  /**
+   * Inicia las vistas base de exploración de juegos
+   * 
+   * @param loaderMain Cargador de la vista principal
+   * @param loaderNav  Cargador de la vista de navegación
+   * 
+   * @return ScrollPane
+   * 
+   * @throws IOException En caso de error
+   */
+  private ScrollPane initBaseExploreViews(FXMLLoader loaderMain, FXMLLoader loaderNav) throws IOException {
+
+    // ScrollPane
+    ScrollPane scrollLayout = new ScrollPane();
+    scrollLayout.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+    // SplitPane interno
+    SplitPane splitLayout = new SplitPane();
+    scrollLayout.setContent(splitLayout);
+
+    // Navegación y Home
+    loaderNav.setLocation(MainApp.class.getResource("/views/Navigation.fxml"));
+    GridPane navigationLayout = (GridPane) loaderNav.load();
+
+    navigationLayout.setAlignment(Pos.TOP_LEFT);
+
+    loaderMain.setLocation(MainApp.class.getResource("/views/ExploreView.fxml"));
+    BorderPane exploreLayout = (BorderPane) loaderMain.load();
+
+    splitLayout.getItems().addAll(navigationLayout, exploreLayout);
+    return scrollLayout;
+  }
+
+  /**
+   * Inicializa el controlador de la vista de exploración con una búsqueda preestablecida. En caso de ser una búsqueda
+   * null, no se buscarán juegos por nombre
+   * 
+   * @param loaderMain Loader del controlador para el home
+   * @param searchText Texto de búsqueda para la inicialización de la página
+   */
+  private void initExploreViewController(FXMLLoader loaderMain, String searchText) {
+
+    // Carga del controlador home
+    ExploreViewController exploreViewController = loaderMain.getController();
+    exploreViewController.setAppUser(appUser);
+    exploreViewController.setMainApp(this);
+    exploreViewController.setUserGameClient(userGameClient);
+    exploreViewController.setGameClient(gameClient);
+
+    // Carga de géneros y plataformas
+    exploreViewController.setAvaiableGenres(genres);
+    exploreViewController.setAvaiablePlatforms(platforms);
+
+    // Carga de eventos
+    exploreViewController.setSearchBarTimeLine();
+
+    // Carga de datos con nombre parcial o total del juego
+    if (searchText != null && !searchText.isEmpty()) {
+      exploreViewController.getSearchBar().setText(searchText);
+      exploreViewController.getSearchParams().put(GameSearchParams.GAME_NAME, searchText);
+    }
+
+    exploreViewController.getSearchParams().put(GameSearchParams.USER_CREATED, false);
+
+    exploreViewController.chargeBaseData();
+    exploreViewController.chargeData();
+  }
+
+  /**
+   * Inicializa el controlador de la navegación
+   * 
+   * @param loaderNav   Loader de la página
+   * @param currentPage Página actual
+   */
+  private void initNavigationController(FXMLLoader loaderNav, Page currentPage) {
+
+    NavigationController navigationController = loaderNav.getController();
+    navigationController.setMainApp(this);
+    navigationController.setIcons();
+    navigationController.setToggleSwitch(toggleSwitch);
+    navigationController.setCurrentPage(currentPage);
   }
 
 }

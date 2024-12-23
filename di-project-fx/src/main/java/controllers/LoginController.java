@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 
 import application.MainApp;
 import controllers.utils.AlertUtils;
-import controllers.utils.ComponentUtils;
+import controllers.utils.components.Components;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -62,7 +62,7 @@ public class LoginController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    spinner = ComponentUtils.getSpinner();
+    spinner = Components.getSpinner();
   }
 
   @FXML
@@ -86,8 +86,7 @@ public class LoginController implements Initializable {
       AppUser user = getLoggedUser();
       mainApp.setAppUser(user);
 
-      System.out.println(user.getName());
-      // TODO -> Cuando esté lista HomeView, redirigir. Mientras, se deja el syso para testing->mainApp.initHomeView();
+      mainApp.initHomeView();
 
       // Control de errores por login incorrecto. Muestra el mensaje durante 3 segundos
     } catch (ForbiddenAccessException e) {

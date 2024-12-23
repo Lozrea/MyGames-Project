@@ -1,5 +1,6 @@
 package models.feign.client;
 
+import java.util.List;
 import java.util.Map;
 
 import feign.Headers;
@@ -17,7 +18,7 @@ public interface UserGameClient {
    * Obtiene todos los UserGame dado el ID del usuario
    * 
    * @param secretKey Clave secreta para la comunicación
-   * @param id        ID del usuario
+   * @param userId    ID del usuario
    * 
    * @return List(UserGame)
    */
@@ -67,9 +68,7 @@ public interface UserGameClient {
    * <li>genreIds: Cadena de caracteres con los IDs de los géneros, separados por coma</li>
    * <li>platformIds: Cadena de caracteres con los IDs de las plataformas, separados por coma</li>
    * <li>finished: true - false. Indica si el juego lo ha terminado el usuario</li>
-   * <li>orderField: Campo de ordenación. Será: addedDate, personalRating, metacritic, gameNameAsc o gameNameDesc. Por
-   * defecto será addedDate</li>
-   * <li>page: Será 0 por defecto en caso de no ser especificado</li>
+   * <li>page: Será 1 por defecto en caso de no ser especificado</li>
    * <li>size: Será 10 en caso de no ser especificado</li>
    * </ul>
    * 
@@ -86,18 +85,32 @@ public interface UserGameClient {
       @Param("userIds") String userIds, @QueryMap Map<String, Object> optionalParams);
 
   /**
-   * Obtiene todas las asociaciones del usuario dado con los juegos especificados
+   * Obtiene todas las asociaciones del usuario dado con los juegos especificados por sus IDs
    * 
    * @param secretKey Clave secreta para la comunicación
    * @param userId    ID del usuario
-   * @param gameIds   IDs de los juegos. Será una cadena de caracteres con los IDs separados por coma
+   * @param gameIdsIn IDs de los juegos
    * 
    * @return UserGameResponse
    */
   @RequestLine("GET /users-games/games-in?secretKey={secretKey}&userId={userId}&gameIdsIn={gameIdsIn}")
   @Headers("Content-Type: application/json")
   UserGameResponse getUserGamesByGameIdIn(@Param("secretKey") String secretKey, @Param("userId") Long userId,
-      @Param("gameIds") String gameIdsIn);
+      @Param("gameIdsIn") List<Long> gameIdsIn);
+
+  /**
+   * Obtiene todas las asociaciones del usuario dado con los juegos especificados por sus IDs externos
+   * 
+   * @param secretKey    Clave secreta para la comunicación
+   * @param userId       ID del usuario
+   * @param gameApiIdsIn IDs de los juegos
+   * 
+   * @return UserGameResponse
+   */
+  @RequestLine("GET /users-games/api-games-in?secretKey={secretKey}&userId={userId}&gameApiIdsIn={gameApiIdsIn}")
+  @Headers("Content-Type: application/json")
+  UserGameResponse getUserGamesByGameApiIdIn(@Param("secretKey") String secretKey, @Param("userId") Long userId,
+      @Param("gameApiIdsIn") List<Long> gameApiIdsIn);
 
   /**
    * Almacena o modifica una asociación entre usuario y juego. Se usará tanto para crear nuevas entidades como para
