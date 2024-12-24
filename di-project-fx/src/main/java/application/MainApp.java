@@ -5,11 +5,12 @@ import java.util.List;
 
 import controllers.ExploreViewController;
 import controllers.HomeViewController;
+import controllers.LibraryViewController;
 import controllers.LoginController;
 import controllers.NavigationController;
 import controllers.RecoverPasswordController;
 import controllers.RegisterController;
-import controllers.utils.Page;
+import controllers.utils.NavigationPage;
 import controllers.utils.components.ToggleSwitch;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -35,6 +36,7 @@ import models.feign.client.GameClient;
 import models.feign.client.UserClient;
 import models.feign.client.UserGameClient;
 import models.feign.constants.GameSearchParams;
+import views.Routes;
 
 /** Aplicación principal */
 public class MainApp extends Application {
@@ -100,7 +102,7 @@ public class MainApp extends Application {
     try {
       FXMLLoader loader = new FXMLLoader();
 
-      loader.setLocation(MainApp.class.getResource("/views/Login.fxml"));
+      loader.setLocation(MainApp.class.getResource(Routes.LOGIN));
       BorderPane loginLayout = (BorderPane) loader.load();
 
       // Controlador del login
@@ -123,7 +125,7 @@ public class MainApp extends Application {
     try {
       FXMLLoader loader = new FXMLLoader();
 
-      loader.setLocation(MainApp.class.getResource("/views/Register.fxml"));
+      loader.setLocation(MainApp.class.getResource(Routes.REGISTER));
       Parent registerLayout = (BorderPane) loader.load();
 
       // Controlador del registro
@@ -146,7 +148,7 @@ public class MainApp extends Application {
     try {
       FXMLLoader loader = new FXMLLoader();
 
-      loader.setLocation(MainApp.class.getResource("/views/RecoverPassword.fxml"));
+      loader.setLocation(MainApp.class.getResource(Routes.RECOVER_PASSWORD));
       Parent recoverPasswordLayout = (BorderPane) loader.load();
 
       // Controlador del registro
@@ -179,12 +181,12 @@ public class MainApp extends Application {
       scrollLayout.setContent(splitLayout);
 
       // Navegación y Home
-      loaderNav.setLocation(MainApp.class.getResource("/views/Navigation.fxml"));
+      loaderNav.setLocation(MainApp.class.getResource(Routes.NAVIGATION));
       GridPane navigationLayout = (GridPane) loaderNav.load();
 
       navigationLayout.setAlignment(Pos.TOP_LEFT);
 
-      loaderMain.setLocation(MainApp.class.getResource("/views/HomeView.fxml"));
+      loaderMain.setLocation(MainApp.class.getResource(Routes.HOME));
       BorderPane homeLayout = (BorderPane) loaderMain.load();
 
       splitLayout.getItems().addAll(navigationLayout, homeLayout);
@@ -212,7 +214,29 @@ public class MainApp extends Application {
 
       // Controladores
       initExploreViewController(loaderMain, null);
-      initNavigationController(loaderNav, Page.EXPLORE);
+      initNavigationController(loaderNav, NavigationPage.EXPLORE);
+
+      Scene scene = new Scene(scrollLayout, screenSize.getWidth(), screenSize.getHeight());
+      primaryStage.setScene(scene);
+      primaryStage.show();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /** Carga la vista de la pantalla de la biblioteca */
+  public void initLibraryView() {
+
+    try {
+      FXMLLoader loaderMain = new FXMLLoader();
+      FXMLLoader loaderNav = new FXMLLoader();
+
+      ScrollPane scrollLayout = initBaseLibraryViews(loaderMain, loaderNav);
+
+      // Controladores
+      initLibraryViewController(loaderMain);
+      initNavigationController(loaderNav, NavigationPage.LIBRARY);
 
       Scene scene = new Scene(scrollLayout, screenSize.getWidth(), screenSize.getHeight());
       primaryStage.setScene(scene);
@@ -238,7 +262,7 @@ public class MainApp extends Application {
 
       // Controladores
       initExploreViewController(loaderMain, searchText);
-      initNavigationController(loaderNav, Page.EXPLORE);
+      initNavigationController(loaderNav, NavigationPage.EXPLORE);
 
       Scene scene = new Scene(scrollLayout, screenSize.getWidth(), screenSize.getHeight());
       primaryStage.setScene(scene);
@@ -323,7 +347,7 @@ public class MainApp extends Application {
 
     homeViewController.chargeData();
 
-    initNavigationController(loaderNav, Page.HOME);
+    initNavigationController(loaderNav, NavigationPage.HOME);
   }
 
   /**
@@ -347,15 +371,48 @@ public class MainApp extends Application {
     scrollLayout.setContent(splitLayout);
 
     // Navegación y Home
-    loaderNav.setLocation(MainApp.class.getResource("/views/Navigation.fxml"));
+    loaderNav.setLocation(MainApp.class.getResource(Routes.NAVIGATION));
     GridPane navigationLayout = (GridPane) loaderNav.load();
 
     navigationLayout.setAlignment(Pos.TOP_LEFT);
 
-    loaderMain.setLocation(MainApp.class.getResource("/views/ExploreView.fxml"));
+    loaderMain.setLocation(MainApp.class.getResource(Routes.EXPLORE));
     BorderPane exploreLayout = (BorderPane) loaderMain.load();
 
     splitLayout.getItems().addAll(navigationLayout, exploreLayout);
+    return scrollLayout;
+  }
+
+  /**
+   * Inicia las vistas base de la biblioteca
+   * 
+   * @param loaderMain Cargador de la vista principal
+   * @param loaderNav  Cargador de la vista de navegación
+   * 
+   * @return ScrollPane
+   * 
+   * @throws IOException En caso de error
+   */
+  private ScrollPane initBaseLibraryViews(FXMLLoader loaderMain, FXMLLoader loaderNav) throws IOException {
+
+    // ScrollPane
+    ScrollPane scrollLayout = new ScrollPane();
+    scrollLayout.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+    // SplitPane interno
+    SplitPane splitLayout = new SplitPane();
+    scrollLayout.setContent(splitLayout);
+
+    // Navegación y Home
+    loaderNav.setLocation(MainApp.class.getResource(Routes.NAVIGATION));
+    GridPane navigationLayout = (GridPane) loaderNav.load();
+
+    navigationLayout.setAlignment(Pos.TOP_LEFT);
+
+    loaderMain.setLocation(MainApp.class.getResource(Routes.LIBRARY));
+    BorderPane libraryLayout = (BorderPane) loaderMain.load();
+
+    splitLayout.getItems().addAll(navigationLayout, libraryLayout);
     return scrollLayout;
   }
 
@@ -382,13 +439,14 @@ public class MainApp extends Application {
     // Carga de eventos
     exploreViewController.setSearchBarTimeLine();
 
+    // Parámetros
+    exploreViewController.getSearchParams().put(GameSearchParams.USER_CREATED, false);
+
     // Carga de datos con nombre parcial o total del juego
     if (searchText != null && !searchText.isEmpty()) {
       exploreViewController.getSearchBar().setText(searchText);
       exploreViewController.getSearchParams().put(GameSearchParams.GAME_NAME, searchText);
     }
-
-    exploreViewController.getSearchParams().put(GameSearchParams.USER_CREATED, false);
 
     exploreViewController.chargeBaseData();
     exploreViewController.chargeData();
@@ -400,13 +458,34 @@ public class MainApp extends Application {
    * @param loaderNav   Loader de la página
    * @param currentPage Página actual
    */
-  private void initNavigationController(FXMLLoader loaderNav, Page currentPage) {
+  private void initNavigationController(FXMLLoader loaderNav, NavigationPage currentPage) {
 
     NavigationController navigationController = loaderNav.getController();
     navigationController.setMainApp(this);
     navigationController.setIcons();
     navigationController.setToggleSwitch(toggleSwitch);
     navigationController.setCurrentPage(currentPage);
+  }
+
+  /**
+   * Inicializa el controlador de la vista de la librería
+   * 
+   * @param loaderMain Loader del controlador para el home
+   */
+  private void initLibraryViewController(FXMLLoader loaderMain) {
+
+    // Carga del controlador home
+    LibraryViewController libraryViewController = loaderMain.getController();
+    libraryViewController.setAppUser(appUser);
+    libraryViewController.setMainApp(this);
+    libraryViewController.setUserGameClient(userGameClient);
+    libraryViewController.getTglbtnAll().setSelected(true);
+
+    // Carga de eventos
+    libraryViewController.setSearchBarTimeLine();
+
+    libraryViewController.chargeBaseData();
+    libraryViewController.chargeData();
   }
 
 }

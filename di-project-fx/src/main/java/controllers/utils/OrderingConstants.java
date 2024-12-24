@@ -3,11 +3,11 @@ package controllers.utils;
 import java.util.List;
 import java.util.Map;
 
-/** Constantes de ordenación para la página de exploración */
-public class ExploreOrderingConstants {
+/** Constantes de ordenación */
+public class OrderingConstants {
 
   /** Constructor privado. Evita instanciación de clase */
-  private ExploreOrderingConstants() {
+  private OrderingConstants() {
   }
 
   /** Orden alfabético ascendente */
@@ -25,13 +25,18 @@ public class ExploreOrderingConstants {
   /** Orden por nota de metacritic descendente */
   public static final String METACRITIC_DESC = "Metacritic";
 
-  /** Lista de categorías de ordenación mostrada al usuario */
-  public static final List<String> SHOWN_ORDERING = List
+  /** Lista de categorías de ordenación mostrada al usuario para la página de exploración */
+  public static final List<String> EXPLORE_SHOWN_ORDERING = List
       .of(NAME_ASC, NAME_DESC, RELEASED_DESC, RELEASED_ASC, METACRITIC_DESC);
 
-  /** Mapa con las constantes de ordenación y su valor en la búsqueda a través del cliente */
-  public static final Map<String, String> ORDERING = Map
+  /**
+   * Mapa con las constantes de ordenación y su valor en la búsqueda a través del cliente para la página de exploración
+   */
+  public static final Map<String, String> EXPLORE_ORDERING_MAP = Map
       .of(NAME_ASC, "name", NAME_DESC, "-name", RELEASED_DESC, "-released", RELEASED_ASC, "released", METACRITIC_DESC,
           "-metacritic");
+
+  /** Lista de categorías de ordenación mostrada al usuario para la página de biblioteca */
+  public static final List<String> LIBRARY_SHOWN_ORDERING = List.of(NAME_ASC, NAME_DESC, METACRITIC_DESC);
 
 }

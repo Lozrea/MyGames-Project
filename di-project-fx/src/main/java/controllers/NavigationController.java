@@ -1,7 +1,7 @@
 package controllers;
 
 import application.MainApp;
-import controllers.utils.Page;
+import controllers.utils.NavigationPage;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -12,11 +12,14 @@ import javafx.scene.paint.Color;
 /** Controlador de la vista de navegación */
 public class NavigationController {
 
+  /** Color de marcado de enlaces */
+  private static final Color MARKED_LINK_COLOR = Color.rgb(254, 105, 39);
+
   /** Clase principal */
   private MainApp mainApp;
 
   /** Página actual */
-  private Page currentPage;
+  private NavigationPage currentPage;
 
   /** Toggle Switch */
   private StackPane toggleSwitch;
@@ -88,7 +91,7 @@ public class NavigationController {
 
   @FXML
   void libraryNavigationClicked(MouseEvent event) {
-
+    mainApp.initLibraryView();
   }
 
   @FXML
@@ -144,37 +147,37 @@ public class NavigationController {
    * 
    * @param currentPage Página actual en la que se encuentra el usuario
    */
-  public void setCurrentPage(Page currentPage) {
+  public void setCurrentPage(NavigationPage currentPage) {
     this.currentPage = currentPage;
 
     switch (this.currentPage) {
 
     case HOME:
-      labelHome.setTextFill(Color.rgb(254, 105, 39));
+      labelHome.setTextFill(MARKED_LINK_COLOR);
       break;
 
     case LIBRARY:
-      labelLibrary.setTextFill(Color.rgb(254, 105, 39));
+      labelLibrary.setTextFill(MARKED_LINK_COLOR);
       break;
 
     case EXPLORE:
-      labelExplore.setTextFill(Color.rgb(254, 105, 39));
+      labelExplore.setTextFill(MARKED_LINK_COLOR);
       break;
 
     case FRIENDS:
-      labelFriends.setTextFill(Color.rgb(254, 105, 39));
+      labelFriends.setTextFill(MARKED_LINK_COLOR);
       break;
 
     case SETTINGS:
-      labelSettings.setTextFill(Color.rgb(254, 105, 39));
+      labelSettings.setTextFill(MARKED_LINK_COLOR);
       break;
 
     case SUPPORT:
-      labelSupport.setTextFill(Color.rgb(254, 105, 39));
+      labelSupport.setTextFill(MARKED_LINK_COLOR);
       break;
 
     default:
-      labelHome.setTextFill(Color.rgb(254, 105, 39));
+      labelHome.setTextFill(MARKED_LINK_COLOR);
     }
 
   }

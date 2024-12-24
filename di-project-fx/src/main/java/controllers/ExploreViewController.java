@@ -10,7 +10,8 @@ import org.controlsfx.control.CheckComboBox;
 
 import application.MainApp;
 import controllers.utils.AlertUtils;
-import controllers.utils.ExploreOrderingConstants;
+import controllers.utils.OrderingConstants;
+import controllers.utils.components.Images;
 import controllers.utils.wrappers.GenreWrapper;
 import controllers.utils.wrappers.PlatformSimpleWrapper;
 import javafx.animation.KeyFrame;
@@ -20,6 +21,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -34,10 +37,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
@@ -54,6 +61,7 @@ import models.feign.OpenFeignConstants;
 import models.feign.client.GameClient;
 import models.feign.client.UserGameClient;
 import models.feign.constants.GameSearchParams;
+import views.Routes;
 
 /** Controlador de la página de exploración */
 public class ExploreViewController {
@@ -85,12 +93,6 @@ public class ExploreViewController {
   /** Propiedades y filtros de búsqueda */
   private Map<String, Object> searchParams = new HashMap<>();
 
-  /** Lista de géneros disponibles para el filtrado */
-  private List<Genre> avaiableGenres;
-
-  /** Lista de plataformas disponibles para el filtrado */
-  private List<PlatformSimple> avaiablePlatforms;
-
   /** ComboBox de los géneros */
   private CheckComboBox<GenreWrapper> cbGenre = new CheckComboBox<>();
 
@@ -100,14 +102,20 @@ public class ExploreViewController {
   /** Atributo para el conteo del juego mostrado. Usado para el cálculo de la posición sobre el gridPane */
   private int currentGameCount = 0;
 
-  /** Respuesta con los juegos a mostrar actuales */
-  private GameResponse currentGameResponse;
-
   /** IDs de los juegos mostrados. Pueden ser internos o externos */
   private List<Long> shownGamesIds;
 
   /** TimeLine para la búsqueda en la barra superior */
   private Timeline searchBarTimeLine;
+
+  /** Respuesta con los juegos a mostrar actuales */
+  private GameResponse currentGameResponse;
+
+  /** Lista de géneros disponibles para el filtrado */
+  private List<Genre> avaiableGenres;
+
+  /** Lista de plataformas disponibles para el filtrado */
+  private List<PlatformSimple> avaiablePlatforms;
 
   @FXML
   private ImageView avatarImage;
@@ -180,7 +188,7 @@ public class ExploreViewController {
   void onOrderingChange(ActionEvent event) {
 
     searchParams.put(GameSearchParams.PAGE_NUMBER, 1);
-    searchParams.put(GameSearchParams.ORDERING_FIELD, ExploreOrderingConstants.ORDERING.get(cbOrder.getValue()));
+    searchParams.put(GameSearchParams.ORDERING_FIELD, OrderingConstants.EXPLORE_ORDERING_MAP.get(cbOrder.getValue()));
 
     chargeData();
   }
@@ -191,8 +199,8 @@ public class ExploreViewController {
     // Datos del usuario
     labelUsernameConfig.setText(appUser.getUsername());
     avatarImage
-        .setImage(new Image(HomeViewController.class
-            .getResourceAsStream(String.format("/images/Avatares/%d.png", appUser.getAvatar()))));
+        .setImage(
+            new Image(HomeViewController.class.getResourceAsStream(String.format(Images.AVATAR, appUser.getAvatar()))));
 
     // Parámetros de búsqueda y componentes
     cbCommunityCreated.setSelected(false);
@@ -224,6 +232,17 @@ public class ExploreViewController {
       gridPaneGames.getChildren().add(labelNotExpectedError);
     }
 
+  }
+
+  /** Establece el TimeLine necesario para la búsqueda por nombre de juego */
+  public void setSearchBarTimeLine() {
+
+    this.searchBarTimeLine = new Timeline(new KeyFrame(Duration.millis(700), ev -> {
+
+      searchParams.put(GameSearchParams.PAGE_NUMBER, 1);
+      searchParams.put(GameSearchParams.GAME_NAME, searchBar.getText());
+      chargeData();
+    }));
   }
 
   /**
@@ -265,7 +284,7 @@ public class ExploreViewController {
   /**
    * Setter - avaiableGenres
    * 
-   * @param avaiableGenres Lista de géneros disponibles
+   * @param avaiableGenres Géneros disponibles para la búsqueda
    */
   public void setAvaiableGenres(List<Genre> avaiableGenres) {
     this.avaiableGenres = avaiableGenres;
@@ -274,21 +293,10 @@ public class ExploreViewController {
   /**
    * Setter - avaiablePlatforms
    * 
-   * @param avaiablePlatforms Lista de plataformas disponibles
+   * @param avaiablePlatforms Plataformas disponibles para la búsqueda
    */
   public void setAvaiablePlatforms(List<PlatformSimple> avaiablePlatforms) {
     this.avaiablePlatforms = avaiablePlatforms;
-  }
-
-  /** Establece el TimeLine necesario para la búsqueda por nombre de juego */
-  public void setSearchBarTimeLine() {
-
-    this.searchBarTimeLine = new Timeline(new KeyFrame(Duration.millis(700), ev -> {
-
-      searchParams.put(GameSearchParams.PAGE_NUMBER, 1);
-      searchParams.put(GameSearchParams.GAME_NAME, searchBar.getText());
-      chargeData();
-    }));
   }
 
   /**
@@ -298,6 +306,15 @@ public class ExploreViewController {
    */
   public TextField getSearchBar() {
     return searchBar;
+  }
+
+  /**
+   * Getter - currentGameResponse
+   * 
+   * @return GameResponse
+   */
+  public GameResponse getCurrentGameResponse() {
+    return currentGameResponse;
   }
 
   /**
@@ -321,7 +338,7 @@ public class ExploreViewController {
     // Carga de datos
     cbGenre.getItems().addAll(avaiableGenres.stream().map(GenreWrapper::new).toList());
     cbPlatform.getItems().addAll(avaiablePlatforms.stream().map(PlatformSimpleWrapper::new).toList());
-    cbOrder.getItems().addAll(ExploreOrderingConstants.SHOWN_ORDERING);
+    cbOrder.getItems().addAll(OrderingConstants.EXPLORE_SHOWN_ORDERING);
 
     // Eventos por cambio del combobox
     setCheckComboBoxesActions();
@@ -354,6 +371,9 @@ public class ExploreViewController {
       Node element = getElementToShowFromGame(game);
       gridPaneGames.add(element, currentGameCount % GAMES_COLUMN_QUANTITY, currentGameCount / GAMES_COLUMN_QUANTITY);
 
+      // Puntuación de metacritic
+      setMetacritic(game);
+
       // Se comprueba si se tiene el juego y se permite añadirlo
       setAddRemoveButtonForGame(shownGamesIds, game);
 
@@ -367,13 +387,10 @@ public class ExploreViewController {
           mainApp.initGameView(game.getApiId(), game.getScreenshots());
         }
       });
-
       currentGameCount++;
-
     });
 
     currentGameCount = 0;
-
   }
 
   /**
@@ -473,6 +490,30 @@ public class ExploreViewController {
   }
 
   /**
+   * Establece la puntuación de metacritic en el gridPane
+   * 
+   * @param game Juego
+   */
+  private void setMetacritic(Game game) {
+
+    Label labelMetacritic = new Label(
+        game.getMetacriticRating() != null ? String.valueOf(game.getMetacriticRating()) : "");
+
+    labelMetacritic.setMinSize(40, 40);
+    labelMetacritic.setAlignment(Pos.CENTER);
+
+    BackgroundFill backgroundFill = new BackgroundFill(Color.GREY, new CornerRadii(10), new Insets(5));
+    labelMetacritic.setBackground(new Background(backgroundFill));
+    labelMetacritic.setTextFill(Color.WHITE);
+
+    gridPaneGames
+        .add(labelMetacritic, currentGameCount % GAMES_COLUMN_QUANTITY, currentGameCount / GAMES_COLUMN_QUANTITY);
+    GridPane.setValignment(labelMetacritic, VPos.TOP);
+    GridPane.setMargin(labelMetacritic, new Insets(10));
+
+  }
+
+  /**
    * Añade un botón para asociar o eliminar la asociación entre el usuario loggeado y el juego mostrado
    * 
    * @param ids  IDs de los juegos
@@ -498,6 +539,7 @@ public class ExploreViewController {
         .add(addRemoveButton, currentGameCount % GAMES_COLUMN_QUANTITY, currentGameCount / GAMES_COLUMN_QUANTITY);
     GridPane.setHalignment(addRemoveButton, HPos.RIGHT);
     GridPane.setValignment(addRemoveButton, VPos.BOTTOM);
+    GridPane.setMargin(addRemoveButton, new Insets(10));
   }
 
   /**
@@ -564,14 +606,14 @@ public class ExploreViewController {
 
     FXMLLoader loader = new FXMLLoader();
 
-    loader.setLocation(MainApp.class.getResource("/views/Pagination.fxml"));
+    loader.setLocation(MainApp.class.getResource(Routes.EXPLORE_PAGINATION));
     Parent paginationLayout = (HBox) loader.load();
 
-    PaginationController paginationController = loader.getController();
-    paginationController.setCurrentGameResponse(currentGameResponse);
-    paginationController.setExploreViewController(this);
+    ExplorePaginationController explorePaginationController = loader.getController();
+    explorePaginationController.setCurrentGameResponse(currentGameResponse);
+    explorePaginationController.setSearchController(this);
 
-    paginationController.setPagination();
+    explorePaginationController.setPagination();
 
     borderPanePagination.setCenter(paginationLayout);
     paginationLayout.setVisible(true);

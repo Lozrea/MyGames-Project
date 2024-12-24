@@ -1,7 +1,7 @@
 package controllers.utils;
 
 /** Página en la que se encuentra el usuario */
-public enum Page {
+public enum NavigationPage {
 
   /** Pantalla principal / Recomendaciones */
   HOME,
