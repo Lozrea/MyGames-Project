@@ -5,17 +5,21 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import models.GameResponse;
-import models.feign.constants.GameSearchParams;
 
 /** Controlador de la paginación */
-public class PaginationController {
+public class LibraryPaginationController {
+
+  /** Tamaño de la página a mostrar en la vista de biblioteca */
+  protected static final int LIBRARY_PAGE_SIZE = 16;
 
   /** Respuesta con los juegos actuales mostrados en pantalla */
-  private GameResponse currentGameResponse;
+  private int pagesNumber;
+
+  /** Número actual de página */
+  private int currentPage;
 
   /** Controlador para la vista de exploración */
-  private ExploreViewController exploreViewController;
+  private LibraryViewController controller;
 
   /** Bloque HBox de paginación */
   @FXML
@@ -23,8 +27,6 @@ public class PaginationController {
 
   /** Establece la paginación actual a mostrar al usuario */
   public void setPagination() {
-
-    int currentPage = (int) exploreViewController.getSearchParams().get(GameSearchParams.PAGE_NUMBER);
 
     // Primera página
     if (currentPage != 1) {
@@ -36,42 +38,51 @@ public class PaginationController {
       hboxPagination.getChildren().add(new Label("..."));
     }
 
-    if (currentGameResponse.isPrevious() && currentPage - 1 != 1) {
+    if (currentPage >= 3 && currentPage - 1 != 1) {
       hboxPagination.getChildren().add(generatePageNumber(currentPage - 1, false));
     }
 
     hboxPagination.getChildren().add(generatePageNumber(currentPage, true));
 
-    if (currentGameResponse.isNext() && currentPage + 1 != currentGameResponse.getPages()) {
+    if (currentPage < pagesNumber && currentPage + 1 != pagesNumber) {
       hboxPagination.getChildren().add(generatePageNumber(currentPage + 1, false));
     }
 
-    if (currentPage < currentGameResponse.getPages() - 2) {
+    if (currentPage < pagesNumber - 2) {
       hboxPagination.getChildren().add(new Label("..."));
     }
 
     // Última página
-    if (currentPage != currentGameResponse.getPages()) {
-      hboxPagination.getChildren().add(generatePageNumber(currentGameResponse.getPages(), false));
+    if (currentPage != pagesNumber) {
+      hboxPagination.getChildren().add(generatePageNumber(pagesNumber, false));
     }
   }
 
   /**
-   * Setter - currentGameResponse
+   * Setter - pagesNumber
    * 
-   * @param currentGameResponse Respuesta con los juegos actualmente mostrados
+   * @param pagesNumber Número de págiinas disponibles
    */
-  public void setCurrentGameResponse(GameResponse currentGameResponse) {
-    this.currentGameResponse = currentGameResponse;
+  public void setPagesNumber(int pagesNumber) {
+    this.pagesNumber = pagesNumber;
+  }
+
+  /**
+   * Setter - currentPageNumber
+   * 
+   * @param currentPageNumber Número de página mostrada
+   */
+  public void setCurrentPageNumber(int currentPageNumber) {
+    this.currentPage = currentPageNumber;
   }
 
   /**
    * Setter - exploreViewController
    * 
-   * @param exploreViewController Controlador para la vista de exploración
+   * @param controller Controlador para la vista de búsqueda
    */
-  public void setExploreViewController(ExploreViewController exploreViewController) {
-    this.exploreViewController = exploreViewController;
+  public void setLibraryViewController(LibraryViewController controller) {
+    this.controller = controller;
   }
 
   /**
@@ -91,9 +102,10 @@ public class PaginationController {
 
     if (!isCurrentPage) {
       pageLabel.setCursor(Cursor.HAND);
+
       pageLabel.setOnMouseClicked(event -> {
-        exploreViewController.getSearchParams().put(GameSearchParams.PAGE_NUMBER, pageNumber);
-        exploreViewController.chargeData();
+        controller.setCurrentPageNumber(pageNumber);
+        controller.filterAndOrderGames();
       });
     }
 

@@ -3,6 +3,7 @@ package controllers;
 import java.util.HashMap;
 
 import application.MainApp;
+import controllers.utils.components.Images;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -133,8 +134,8 @@ public class HomeViewController {
     // Se cargan los datos del usuario
     labelUsernameConfig.setText(appUser.getUsername());
     avatarImage
-        .setImage(new Image(HomeViewController.class
-            .getResourceAsStream(String.format("/images/Avatares/%d.png", appUser.getAvatar()))));
+        .setImage(
+            new Image(HomeViewController.class.getResourceAsStream(String.format(Images.AVATAR, appUser.getAvatar()))));
 
     hBoxRecommendedGamesByFriends.setSpacing(20);
     hBoxRecommendedGamesByFriends.setPadding(new Insets(10));

@@ -3,6 +3,7 @@ package controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import controllers.utils.components.Images;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -17,9 +18,6 @@ public class AvatarSelectorController implements Initializable {
 
   /** Número total de avatares del sistema */
   private static final int TOTAL_AVATAR_QUANTITY = 6;
-
-  /** Ruta base hacia los avatares */
-  private static final String AVATAR_BASE_PATH = "/images/Avatares/%d.png";
 
   /** Número de avatares por cada fila */
   private static final int AVATARS_PER_ROW = 4;
@@ -82,7 +80,7 @@ public class AvatarSelectorController implements Initializable {
     for (int i = 0; i < TOTAL_AVATAR_QUANTITY; i++) {
 
       // Se crea cada ImageView
-      Image image = new Image(AvatarSelectorController.class.getResourceAsStream(String.format(AVATAR_BASE_PATH, i)));
+      Image image = new Image(AvatarSelectorController.class.getResourceAsStream(String.format(Images.AVATAR, i)));
 
       ImageView imageView = new ImageView(image);
       imageView.setFitHeight(100);

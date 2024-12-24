@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import application.MainApp;
 import controllers.utils.AlertUtils;
 import controllers.utils.components.Components;
+import controllers.utils.components.Images;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -36,12 +37,10 @@ import models.error.ResourceNotFoundException;
 import models.feign.OpenFeignConstants;
 import models.feign.client.UserClient;
 import models.validation.AppUserValidation;
+import views.Routes;
 
 /** Controlador del registro */
 public class RegisterController implements Initializable {
-
-  /** Ruta base hacia los avatares */
-  private static final String AVATAR_BASE_PATH = "/images/Avatares/%d.png";
 
   /** Color usado para formularios con campo incorrecto */
   private static final Color INCORRECT_FIELD_COLOR = Color.color(0.75, 0, 0);
@@ -135,7 +134,7 @@ public class RegisterController implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
 
     // Se establecen las imágenes
-    Image image = new Image(RegisterController.class.getResourceAsStream(String.format(AVATAR_BASE_PATH, 0)));
+    Image image = new Image(RegisterController.class.getResourceAsStream(String.format(Images.AVATAR, 0)));
     imageSelector.setImage(image);
 
     spinner = Components.getSpinner();
@@ -153,7 +152,7 @@ public class RegisterController implements Initializable {
     try {
       FXMLLoader loader = new FXMLLoader();
 
-      loader.setLocation(MainApp.class.getResource("/views/AvatarSelector.fxml"));
+      loader.setLocation(MainApp.class.getResource(Routes.AVATAR_SELECTOR));
       BorderPane avatarSelectorLayout = (BorderPane) loader.load();
 
       // Controlador del login
@@ -259,7 +258,7 @@ public class RegisterController implements Initializable {
 
     avatarNumber = number;
     imageSelector
-        .setImage(new Image(RegisterController.class.getResourceAsStream(String.format(AVATAR_BASE_PATH, number))));
+        .setImage(new Image(RegisterController.class.getResourceAsStream(String.format(Images.AVATAR, number))));
   }
 
   /** Cierra el stage del selector de avatar */
