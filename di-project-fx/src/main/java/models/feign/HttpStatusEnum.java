@@ -8,8 +8,28 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum HttpStatusEnum {
 
-  OK(200, "OK"), CREATED(201, "Created"), NO_CONTENT(204, "No Content"), BAD_REQUEST(400, "Bad Request"),
-  UNAUTHORIZED(401, "Unauthorized"), FORBIDDEN(403, "Forbidden"), NOT_FOUND(404, "Not Found"),
+  /** HTTP Status 200 - OK */
+  OK(200, "OK"),
+
+  /** HTTP Status 201 - CREATED */
+  CREATED(201, "Created"),
+
+  /** HTTP Status 204 - NO CONTENT */
+  NO_CONTENT(204, "No Content"),
+
+  /** HTTP Status 400 - BAD REQUEST */
+  BAD_REQUEST(400, "Bad Request"),
+
+  /** HTTP Status 401 - UNAUTHORIZED */
+  UNAUTHORIZED(401, "Unauthorized"),
+
+  /** HTTP Status 403 - FORBIDDEN */
+  FORBIDDEN(403, "Forbidden"),
+
+  /** HTTP Status 404 - NOT FOUND */
+  NOT_FOUND(404, "Not Found"),
+
+  /** HTTP Status 500 - INTERNAL SERVER ERROR */
   INTERNAL_SERVER_ERROR(500, "Internal Server Error");
 
   /** Código del estado */

@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 import java.util.List;
 
+import controllers.CreateGameViewController;
 import controllers.ExploreViewController;
 import controllers.HomeViewController;
 import controllers.LibraryViewController;
@@ -10,6 +11,7 @@ import controllers.LoginController;
 import controllers.NavigationController;
 import controllers.RecoverPasswordController;
 import controllers.RegisterController;
+import controllers.utils.AlertUtils;
 import controllers.utils.NavigationPage;
 import controllers.utils.components.ToggleSwitch;
 import javafx.application.Application;
@@ -23,6 +25,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import models.AppUser;
@@ -292,6 +295,40 @@ public class MainApp extends Application {
 
     Game game = gameClient.getGameByApiId(OpenFeignConstants.SECRET_KEY, externalId, screenshots);
     initGameView(game.getId());
+  }
+
+  public void initCreateGameView() {
+
+    try {
+      // Stage
+      Stage newStage = new Stage();
+
+      newStage.initModality(Modality.APPLICATION_MODAL);
+      newStage.setTitle("Creación de juego");
+
+      // Carga del recurso y controlador
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(MainApp.class.getResource(Routes.CREATE_GAME));
+      BorderPane createGameLayout = (BorderPane) loader.load();
+
+      CreateGameViewController controller = loader.getController();
+      controller.setAvaiableGenres(genres);
+      controller.setAvaiablePlatforms(platforms);
+      controller.setGameClient(gameClient);
+      controller.setStage(newStage);
+
+      // Inicialización
+      controller.chargeBaseData();
+
+      // Escena y muestra
+      Scene scene = new Scene(createGameLayout);
+
+      newStage.setScene(scene);
+      newStage.show();
+
+    } catch (IOException e) {
+      AlertUtils.getUnexpectedErrorAlert().showAndWait();
+    }
   }
 
   /**

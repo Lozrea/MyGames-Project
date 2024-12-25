@@ -56,42 +56,59 @@ public class HomeViewController {
   /** TimeLine para la búsqueda en la barra superior */
   private Timeline searchBarTimeLine;
 
+  /** Avatar del usuario loggeado */
   @FXML
   private ImageView avatarImage;
 
+  /** HBox de juegos recomendados */
   @FXML
   private HBox hBoxRecommendedGames;
 
+  /** HBox de juegos recomendados por amigos */
   @FXML
   private HBox hBoxRecommendedGamesByFriends;
 
+  /** Label para el acceso a los datos del usuario */
   @FXML
   private Label labelUsernameConfig;
 
+  /** Lupa de la barra de búsqueda */
   @FXML
   private ImageView magnifyingGlassIcon;
 
+  /** AnchorPane con la descripción del juego principal */
   @FXML
   private AnchorPane mainDescription;
 
+  /** SplitPane del juego principal */
   @FXML
   private SplitPane mainGame;
 
+  /** Imagen del juego principal */
   @FXML
   private ImageView mainImage;
 
+  /** Imagen secundaria del juego principal */
   @FXML
   private ImageView mainSecondImage;
 
+  /** Imagen secundaria del juego principal */
   @FXML
   private ImageView mainThirdImage;
 
+  /** Barra de búsqueda */
   @FXML
   private TextField searchBar;
 
+  /** TextArea con la descripción */
   @FXML
   private TextArea txtDescription;
 
+  /**
+   * Evento de escritura sobre la barra de búsqueda
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void onSearchBarWrite(KeyEvent event) {
 
@@ -103,6 +120,11 @@ public class HomeViewController {
     }
   }
 
+  /**
+   * Evento de click sobre el SplitPane del juego principal. Inicializa la vista del juego
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void openMainGame(MouseEvent event) {
     Game currentGame = recommendedGames.getResults().get(currentMainGameIndex);
@@ -110,6 +132,11 @@ public class HomeViewController {
     mainApp.initGameView(currentGame.getApiId(), currentGame.getScreenshots());
   }
 
+  /**
+   * Abre la vista de los datos del usuario
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void openUserView(MouseEvent event) {
     // TODO Vista de los datos del usuario

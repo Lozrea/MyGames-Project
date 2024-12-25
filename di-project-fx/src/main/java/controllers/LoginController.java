@@ -39,24 +39,31 @@ public class LoginController implements Initializable {
   /** Spinner de carga */
   private ImageView spinner;
 
+  /** Pane para el icono de la aplicación */
   @FXML
   private Pane paneIcon;
 
+  /** TextField para el username */
   @FXML
   private TextField txtUsername;
 
+  /** TextField para la contraseña */
   @FXML
   private PasswordField txtPassword;
 
+  /** Label a pulsar si se ha olvidado la contraseña */
   @FXML
   private Label lblForgotPassword;
 
+  /** Botón para iniciar sesión */
   @FXML
   private Button btnSignIn;
 
+  /** Label mostrado si el login es incorrecto */
   @FXML
   private Label lblIncorrectSignIn;
 
+  /** Label para acceder a la ventana de registro */
   @FXML
   private Label lblRegister;
 
@@ -65,16 +72,31 @@ public class LoginController implements Initializable {
     spinner = Components.getSpinner();
   }
 
+  /**
+   * Evento para manejar la contraseña olvidada
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void handleForgotPasswordClicked(MouseEvent event) {
     mainApp.initRecoverPasswordView();
   }
 
+  /**
+   * Evento para manejar el click sobre el botón de registro
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void handleRegisterClicked(MouseEvent event) {
     mainApp.initRegisterView();
   }
 
+  /**
+   * Evento para manejar el inicio de sesión
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void handleSignIn(ActionEvent event) {
 

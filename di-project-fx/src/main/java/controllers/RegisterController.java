@@ -75,48 +75,63 @@ public class RegisterController implements Initializable {
   /** Spinner de carga */
   private ImageView spinner;
 
+  /** Botón de registro */
   @FXML
   private Button btnRegister;
 
+  /** Botón para el selector de avatar */
   @FXML
   private ImageView imageSelector;
 
+  /** Label que indica que la cuenta ya existe */
   @FXML
   private Label lblAlreadyHasAccount;
 
+  /** Label que indica que el nombre no es válido */
   @FXML
   private Label lblIncorrectName;
 
+  /** Label que indica que la contraseña no es válida */
   @FXML
   private Label lblIncorrectPassword;
 
+  /** Label que indica que ha ocurrido un error durante el registro */
   @FXML
   private Label lblRegisterError;
 
+  /** Label que indica que las contraseñas deben ser iguales */
   @FXML
   private Label lblSamePasswords;
 
+  /** Label que indica que el email está en uso */
   @FXML
   private Label lblUsedEmail;
 
+  /** Label que indica que el username está en uso */
   @FXML
   private Label lblUsedUsername;
 
+  /** Pane para el icono de la aplicación */
   @FXML
   private Pane paneIcon;
 
+  /** Field para la confirmación de contraseña */
   @FXML
   private PasswordField txtConfirmPassword;
 
+  /** Field para el email */
   @FXML
   private TextField txtEmail;
 
+  /** Field para el nombre */
   @FXML
   private TextField txtName;
 
+  /** Field para la contraseña */
   @FXML
   private PasswordField txtPassword;
 
+  /** Field para el username */
   @FXML
   private TextField txtUsername;
 
@@ -140,6 +155,11 @@ public class RegisterController implements Initializable {
     spinner = Components.getSpinner();
   }
 
+  /**
+   * Maneja el evento de selección de avatar
+   * 
+   * @param event Evento
+   */
   @FXML
   void handleImageSelectorClicked(MouseEvent event) {
 
@@ -170,6 +190,11 @@ public class RegisterController implements Initializable {
 
   }
 
+  /**
+   * Maneja el registro
+   * 
+   * @param event Evento
+   */
   @FXML
   void handleRegister(ActionEvent event) {
 
@@ -200,6 +225,11 @@ public class RegisterController implements Initializable {
     btnRegister.setGraphic(null);
   }
 
+  /**
+   * Maneja la escritura sobre el Field del email
+   * 
+   * @param event Evento
+   */
   @FXML
   void handleTxtEmailKeyPressed(KeyEvent event) {
 
@@ -211,6 +241,11 @@ public class RegisterController implements Initializable {
     }
   }
 
+  /**
+   * Maneja la escritura sobre el Field del username
+   * 
+   * @param event Evento
+   */
   @FXML
   void handleTxtUsernameKeyPressed(KeyEvent event) {
 
@@ -222,6 +257,11 @@ public class RegisterController implements Initializable {
     }
   }
 
+  /**
+   * Maneja la escritura sobre el Field del nombre
+   * 
+   * @param event Evento
+   */
   @FXML
   void handleTxtNameKeyPressed(KeyEvent event) {
 
@@ -233,11 +273,21 @@ public class RegisterController implements Initializable {
     }
   }
 
+  /**
+   * Evento para volver al login porque ya se tiene cuenta
+   * 
+   * @param event Evento
+   */
   @FXML
   void lblAlreadyHasAccountClicked(MouseEvent event) {
     mainApp.initLoginView();
   }
 
+  /**
+   * Maneja la escritura sobre el Field de la contraseña
+   * 
+   * @param event Evento
+   */
   @FXML
   void handleTxtPasswordKeyPressed(KeyEvent event) {
 

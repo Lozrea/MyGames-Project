@@ -89,50 +89,70 @@ public class LibraryViewController {
   /** Grupo de toggle buttons para los juegos acabados y no acabados */
   private ToggleGroup toggleGroupFiltering = new ToggleGroup();
 
+  /** Imagen con el avatar del usuario loggeado */
   @FXML
   private ImageView avatarImage;
 
+  /** BorderPane con la paginación */
   @FXML
   private BorderPane borderPanePagination;
 
+  /** Botón para la apertura de la ventana de creación de juegos */
   @FXML
   private Button btnNewGame;
 
+  /** ComboBox para la ordenación de juegos */
   @FXML
   private ComboBox<String> cbOrder;
 
+  /** GridPane con los juegos mostrados */
   @FXML
   private GridPane gridPaneGames;
 
+  /** Label para la apertura de los datos del usuario */
   @FXML
   private Label labelUsernameConfig;
 
+  /** Imagen de la lupa de la barra de búsqueda */
   @FXML
   private ImageView magnifyingGlassIcon;
 
+  /** Barar de búsqueda */
   @FXML
   private TextField searchBar;
 
+  /** ToggleButton para mostrar todos los juegos */
   @FXML
   private ToggleButton tglbtnAll;
 
+  /** ToggleButton para mostrar sólo los juegos favoritos */
   @FXML
   private ToggleButton tglbtnFavorites;
 
+  /** ToggleButton para mostrar sólo los juegos finalizados */
   @FXML
   private ToggleButton tglbtnFinished;
 
+  /** ToggleButton para mostrar sólo los juegos pendientes */
   @FXML
   private ToggleButton tglbtnNotFinished;
 
-  @FXML
-  private HBox hboxPagination;
-
+  /**
+   * Evento ocurrido al clickar sobre el botón para la creación de juegos. Abre una nueva ventana para ello
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void btnNewGameClicked(ActionEvent event) {
-    // TODO Ventana de nuevo juego
+
+    mainApp.initCreateGameView();
   }
 
+  /**
+   * Evento ocurrido al escribir sobre la barra de búsqueda
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void onSearchBarWrite(KeyEvent event) {
 
@@ -144,31 +164,61 @@ public class LibraryViewController {
     }
   }
 
+  /**
+   * Evento de apertura de la vista con los datos del usuario
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void openUserView(MouseEvent event) {
     // TODO Vista de los datos del usuario
   }
 
+  /**
+   * Evento al cambiar la ordenación de los juegos
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void onOrderingChange(ActionEvent event) {
     commonFilteringEvent();
   }
 
+  /**
+   * Evento al clickar el toggleButton para ver todos los juegos
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void tglbtnAllClicked(ActionEvent event) {
     commonFilteringEvent();
   }
 
+  /**
+   * Evento al clickar el toggleButton para ver sólo los juegos favoritos
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void tglbtnFavoritesClicked(ActionEvent event) {
     commonFilteringEvent();
   }
 
+  /**
+   * Evento al clickar el toggleButton para ver sólo los juegos finalizados
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void tglbtnFinishedClicked(ActionEvent event) {
     commonFilteringEvent();
   }
 
+  /**
+   * Evento al clickar el toggleButton para ver sólo los juegos pendientes
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void tglbtnNotFinishedClicked(ActionEvent event) {
     commonFilteringEvent();

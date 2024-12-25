@@ -24,84 +24,134 @@ public class NavigationController {
   /** Toggle Switch */
   private StackPane toggleSwitch;
 
+  /** Icono de la aplicación para la biblioteca */
   @FXML
   private ImageView LibraryIcon;
 
+  /** Icono de la aplicación */
   @FXML
   private ImageView appIcon;
 
+  /** Icono de la aplicación para la exploración */
   @FXML
   private ImageView exploreIcon;
 
+  /** Icono de la aplicación para la vista de amigos */
   @FXML
   private ImageView friendsIcon;
 
+  /** Icono de la aplicación para las recomendaciones */
   @FXML
   private ImageView homeIcon;
 
+  /** Label de enlace para la vista de exploración */
   @FXML
   private Label labelExplore;
 
+  /** Label de enlace para la vista de amigos */
   @FXML
   private Label labelFriends;
 
+  /** Label de enlace para la vista de recomendaciones */
   @FXML
   private Label labelHome;
 
+  /** Label de enlace para la vista de biblioteca */
   @FXML
   private Label labelLibrary;
 
+  /** Label de enlace para la vista de ajustes */
   @FXML
   private Label labelSettings;
 
+  /** Label de enlace para la vista de soporte */
   @FXML
   private Label labelSupport;
 
+  /** Icono de la aplicación para los ajustes */
   @FXML
   private ImageView settingsIcon;
 
+  /** Icono de la aplicación para el soporte */
   @FXML
   private ImageView supportIcon;
 
+  /** Icono de la aplicación para el tema */
   @FXML
   private ImageView themeIcon;
 
+  /** StackPane con el toggle switch para el tema */
   @FXML
   private StackPane toggleSwitchLayout;
 
+  /**
+   * Apertura de la vista de navegación
+   * 
+   * @param event Evento
+   */
   @FXML
   void appIconNavigationClicked(MouseEvent event) {
     mainApp.initHomeView();
   }
 
+  /**
+   * Apertura de la vista de exploración
+   * 
+   * @param event Evento
+   */
   @FXML
   void exploreNavigationClicked(MouseEvent event) {
     mainApp.initExploreView();
   }
 
+  /**
+   * Apertura de la vista de amigos
+   * 
+   * @param event Evento
+   */
   @FXML
   void friendsNavigationClicked(MouseEvent event) {
-
+    // TODO Enlace a la navegación de amigos
   }
 
+  /**
+   * Apertura de la vista de recomendaciones
+   * 
+   * @param event Evento
+   */
   @FXML
   void homeNavigationClicked(MouseEvent event) {
     mainApp.initHomeView();
   }
 
+  /**
+   * Apertura de la vista de biblioteca
+   * 
+   * @param event Evento
+   */
   @FXML
   void libraryNavigationClicked(MouseEvent event) {
     mainApp.initLibraryView();
   }
 
+  /**
+   * Apertura de la vista de ajustes
+   * 
+   * @param event Evento
+   */
   @FXML
   void settingsNavigationClicked(MouseEvent event) {
-
+    // TODO Enlace a la navegación de ajustes
   }
 
+  /**
+   * Apertura de la vista de soporte
+   * 
+   * @param event Evento
+   */
   @FXML
   void supportNavigationClicked(MouseEvent event) {
-
+    // TODO Enlace a la navegación del soporte
   }
 
   /**
