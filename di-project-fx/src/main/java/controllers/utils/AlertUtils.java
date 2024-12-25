@@ -29,6 +29,19 @@ public class AlertUtils {
   }
 
   /**
+   * Genera una alerta preparada para indicar al usuario que se ha podido insertar correctamente un nuevo juego en la
+   * API
+   * 
+   * @return Alert
+   */
+  public static Alert getInsertedGameAlert() {
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle("Juego creado");
+    alert.setHeaderText("Se ha añadido correctamente el juego en el sistema");
+    return alert;
+  }
+
+  /**
    * Genera una alerta preparada para indicar al usuario que se ha añadido un nuevo juego a la biblioteca
    * 
    * @return Alert

@@ -117,39 +117,65 @@ public class ExploreViewController {
   /** Lista de plataformas disponibles para el filtrado */
   private List<PlatformSimple> avaiablePlatforms;
 
+  /** Imagen del avatar del usuario */
   @FXML
   private ImageView avatarImage;
 
+  /** BorderPane que contiene la paginación */
   @FXML
   private BorderPane borderPanePagination;
 
+  /** Botón para la creación del juego */
+  @FXML
+  private Button btnCreateGame;
+
+  /** Combo Box para ordenar juegos */
   @FXML
   private ComboBox<String> cbOrder;
 
+  /** Combo Box para indicar si el juego ha sido creado por la comunidad */
   @FXML
   private CheckBox cbCommunityCreated;
 
+  /** GridPane con los juegos */
   @FXML
   private GridPane gridPaneGames;
 
+  /** Label para redirigir a la configuración del usuario */
   @FXML
   private Label labelUsernameConfig;
 
+  /** Imagen de la lupa en la barra de búsqueda */
   @FXML
   private ImageView magnifyingGlassIcon;
 
+  /** Barra de búsqueda */
   @FXML
   private TextField searchBar;
 
+  /** VBox con los géneros */
   @FXML
   private VBox vboxGenres;
 
+  /** VBox con las plataformas */
   @FXML
   private VBox vboxPlatforms;
 
+  /**
+   * Evento de click para crear un nuevo juego. Abre una nueva ventana modal para ello
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
-  private HBox hboxPagination;
+  void onBtnCreateGameClicked(ActionEvent event) {
+    mainApp.initCreateGameView();
+  }
 
+  /**
+   * Evento de escritura sobre la barra de búsqueda
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void onSearchBarWrite(KeyEvent event) {
 
@@ -170,6 +196,11 @@ public class ExploreViewController {
     }
   }
 
+  /**
+   * Evento al clickar sobre el combo box cbCommunityCreated
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void onCbCommunityCreatedSelected(ActionEvent event) {
 
@@ -179,11 +210,21 @@ public class ExploreViewController {
     chargeData();
   }
 
+  /**
+   * Inicializa la vista para ver los datos del usuario loggeado
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void openUserView(MouseEvent event) {
     // TODO Vista de los datos del usuario
   }
 
+  /**
+   * Evento ocurrido al modificar el orden de los elementos
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void onOrderingChange(ActionEvent event) {
 

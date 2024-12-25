@@ -24,26 +24,41 @@ public class RecoverPasswordController {
   /** Cliente para la obtención de datos de usuarios */
   private UserClient userClient;
 
+  /** Botón para recuperar la contraseña */
   @FXML
   private Button btnRecoverPassword;
 
+  /** Label para volver al login */
   @FXML
   private Label lblBackToLogin;
 
+  /** Label a mostrar que indica que se ha enviado el email de recuperación */
   @FXML
   private Label lblEmailSent;
 
+  /** Pane con el icono de la aplicación */
   @FXML
   private Pane paneIcon;
 
+  /** TextField para el email */
   @FXML
   private TextField txtEmail;
 
+  /**
+   * Evento para volver al Login
+   * 
+   * @param event Evento
+   */
   @FXML
   void handleBackToLogin(MouseEvent event) {
     mainApp.initLoginView();
   }
 
+  /**
+   * Evento para manejar la recuperación de contraseña
+   * 
+   * @param event Evento
+   */
   @FXML
   void handleRecoverPassword(ActionEvent event) {
 

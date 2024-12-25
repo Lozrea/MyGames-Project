@@ -28,12 +28,19 @@ public class AvatarSelectorController implements Initializable {
   /** Controlador del registro */
   private RegisterController registerController;
 
+  /** GridPane con el selector de avatares */
   @FXML
   private GridPane gridSelector;
 
+  /** Label para volver al registro */
   @FXML
   private Label lblGoBackToRegister;
 
+  /**
+   * Manejador del evento para volver al registro
+   * 
+   * @param event Evento ocurrido
+   */
   @FXML
   void handleGoBackToRegister(MouseEvent event) {
     registerController.closeAvatarSelector();

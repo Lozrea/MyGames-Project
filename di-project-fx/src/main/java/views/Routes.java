@@ -13,6 +13,9 @@ public class Routes {
   /** Ruta hacia la vista de exploración */
   public static final String EXPLORE = "/views/ExploreView.fxml";
 
+  /** Ruta hacia la vista de creación de juegos */
+  public static final String CREATE_GAME = "/views/CreateGameView.fxml";
+
   /** Ruta hacia la vista principal */
   public static final String HOME = "/views/HomeView.fxml";
 
