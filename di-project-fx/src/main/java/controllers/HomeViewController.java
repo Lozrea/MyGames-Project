@@ -168,6 +168,11 @@ public class HomeViewController {
     hBoxRecommendedGamesByFriends.setPadding(new Insets(10));
 
     txtDescription.setEditable(false);
+    
+ // Asignar imagen al icono de la lupa
+    magnifyingGlassIcon.setImage(
+        new Image(HomeViewController.class.getResourceAsStream("/images/search-normal.png"))
+    );
 
     // Se cargan los juegos recomendados
     chargeRecommendedGamesByFriends();

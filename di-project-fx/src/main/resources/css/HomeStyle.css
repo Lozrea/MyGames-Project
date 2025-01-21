@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap');
+
+/* General styles */
+.root {
+    -fx-font-family: "Mona Sans";
+    -fx-background-color: #121922; /* Fondo oscuro */
+}
+
+/* Barra de búsqueda */
+#searchBar {
+    -fx-background-color: #61666B; /* Fondo gris */
+    -fx-background-radius: 20px;
+    -fx-padding: 10px 20px;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #FFFFFF; /* Texto de ayuda blanco */
+	-fx-text-fill: #FFFFFF; /* Texto de escritura blanco */
+	-fx-border-color: transparent; /* Sin borde */
+}
+
+#searchBar:focused {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 128, 0, 0.5), 10, 0, 0, 0);
+}
+
+/* Icono de lupa. REVISAR */
+#magnifyingGlassIcon {
+    -fx-opacity: 0.8;
+    -fx-cursor: hand;
+	-fx-background-image: url("../images/search-normal.png");
+}
+
+#magnifyingGlassIcon:hover {
+    -fx-opacity: 1; /* Más visible al pasar el ratón */
+}
+
+/* Imágenes principales y secundarias */
+ImageView {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 0);
+    -fx-cursor: hand; /* Cambia el cursor a "mano" */
+    -fx-border-radius: 10px; /* Borde redondeado */
+    -fx-border-width: 1px;
+    -fx-border-color: transparent; /* Sin borde por defecto */
+}
+
+ImageView:hover {
+    /*-fx-border-color: #fe6927; /* Verde al pasar el ratón */
+    -fx-scale-x: 1.05; /* Agrandar ligeramente */
+    -fx-scale-y: 1.05;
+    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.5), 20, 0.3, 0, 0);
+}
+
+/* Etiqueta del nombre del usuario */
+#labelUsernameConfig {
+    -fx-font-size: 18px;
+    -fx-text-fill: #FFFFFF; /* Texto blanco */
+    -fx-cursor: hand;
+}
+
+#labelUsernameConfig:hover {
+    -fx-text-fill: #fe6927; /* Naranja al pasar el ratón */
+    -fx-underline: true;
+}
+
+/* Caja de descripción */
+#txtDescription {
+    -fx-background-color: #ffffff; /* Fondo blanco */
+    -fx-border-color: #ccc;
+    -fx-border-radius: 10px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-wrap-text: true; /* Ajustar el texto */
+}
+
+/* Contenedores HBox (juegos recomendados) */
+.hBox {
+    -fx-spacing: 20px;
+    -fx-padding: 10px;
+}
+
+/* ScrollPane (barra oculta) */
+ScrollPane {
+    -fx-background-color: transparent;
+}
+
+ScrollPane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Etiquetas */
+Label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #FFFFFF; /* Color de texto */
+}

@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import models.error.GenericApiException;
 import models.error.ResourceNotFoundException;
@@ -35,6 +36,14 @@ public class RecoverPasswordController {
   /** Label a mostrar que indica que se ha enviado el email de recuperación */
   @FXML
   private Label lblEmailSent;
+  
+  /** BorderPane para el fondo de la pantalla */
+  @FXML
+  private BorderPane bkBorderPane;
+  
+  /**BorderPane para el fondo del formulario*/
+  @FXML
+  private BorderPane bkFormulario;
 
   /** Pane con el icono de la aplicación */
   @FXML

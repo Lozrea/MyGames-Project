@@ -18,6 +18,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import models.AppUser;
@@ -38,6 +39,14 @@ public class LoginController implements Initializable {
 
   /** Spinner de carga */
   private ImageView spinner;
+  
+  /** BorderPane para el fondo de la pantalla */
+  @FXML
+  private BorderPane bkBorderPane;
+  
+  /**BorderPane para el fondo del formulario*/
+  @FXML
+  private BorderPane bkFormulario;
 
   /** Pane para el icono de la aplicación */
   @FXML

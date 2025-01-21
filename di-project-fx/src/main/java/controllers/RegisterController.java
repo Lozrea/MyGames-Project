@@ -110,6 +110,14 @@ public class RegisterController implements Initializable {
   /** Label que indica que el username está en uso */
   @FXML
   private Label lblUsedUsername;
+  
+  /** BorderPane para el fondo de la pantalla */
+  @FXML
+  private BorderPane bkBorderPane;
+  
+  /**BorderPane para el fondo del formulario*/
+  @FXML
+  private BorderPane bkFormulario;
 
   /** Pane para el icono de la aplicación */
   @FXML

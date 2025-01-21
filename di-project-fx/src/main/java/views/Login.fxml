@@ -13,11 +13,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+<BorderPane fx:id="bkBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1400.0" stylesheets="@../../resources/css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
    <center>
-      <BorderPane maxHeight="600.0" maxWidth="500.0" BorderPane.alignment="CENTER">
+      <BorderPane fx:id="bkFormulario" maxHeight="600.0" maxWidth="500.0" prefHeight="600.0" prefWidth="446.0" BorderPane.alignment="CENTER">
          <top>
-            <Pane fx:id="paneIcon" prefHeight="180.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <Pane fx:id="paneIcon" prefHeight="236.0" prefWidth="460.0" BorderPane.alignment="CENTER" />
          </top>
          <center>
             <GridPane BorderPane.alignment="CENTER">
@@ -33,10 +33,10 @@
                   <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="63.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <BorderPane.margin>
-                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                  <Insets bottom="50.0" left="50.0" right="50.0" />
                </BorderPane.margin>
                <children>
-                  <TextField fx:id="txtUsername" maxHeight="1.7976931348623157E308" prefHeight="60.0" prefWidth="383.0" promptText="Usuario" GridPane.vgrow="ALWAYS">
+                  <TextField fx:id="txtUsername" maxHeight="1.7976931348623157E308" prefHeight="112.0" prefWidth="320.0" promptText="Usuario" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets bottom="5.0" top="5.0" />
                      </GridPane.margin>
@@ -48,10 +48,13 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
                   </Label>
                   <Button fx:id="btnSignIn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSignIn" text="Iniciar sesion" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                      <GridPane.margin>
-                        <Insets bottom="5.0" top="5.0" />
+                        <Insets bottom="5.0" top="30.0" />
                      </GridPane.margin>
                      <cursor>
                         <Cursor fx:constant="HAND" />

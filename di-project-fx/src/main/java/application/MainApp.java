@@ -114,6 +114,10 @@ public class MainApp extends Application {
       loginController.setMainApp(this);
 
       Scene scene = new Scene(loginLayout, screenSize.getWidth(), screenSize.getHeight());
+      
+      // Carga la hoja de estilos del Login
+      scene.getStylesheets().add(getClass().getResource("/css/Login.css").toExternalForm());
+      
       primaryStage.setScene(scene);
       primaryStage.show();
 
@@ -137,6 +141,8 @@ public class MainApp extends Application {
       registerController.setMainApp(this);
 
       Scene scene = new Scene(registerLayout, screenSize.getWidth(), screenSize.getHeight());
+      // Carga la hoja de estilos de la pantalla Registro
+      scene.getStylesheets().add(getClass().getResource("/css/Register.css").toExternalForm());
       primaryStage.setScene(scene);
       primaryStage.show();
 
@@ -160,6 +166,8 @@ public class MainApp extends Application {
       recoverPasswordController.setMainApp(this);
 
       Scene scene = new Scene(recoverPasswordLayout, screenSize.getWidth(), screenSize.getHeight());
+      // Carga la hoja de estilos de la pantalla para recuperar la contraseña
+      scene.getStylesheets().add(getClass().getResource("/css/RecoverPassword.css").toExternalForm());
       primaryStage.setScene(scene);
       primaryStage.show();
 

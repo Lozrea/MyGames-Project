@@ -15,11 +15,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
+<BorderPane fx:id="bkBorderPane" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1400.0" stylesheets="@../../resources/css/Register.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
    <center>
-      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="600.0" BorderPane.alignment="CENTER">
+      <BorderPane fx:id="bkFormulario" maxHeight="1.7976931348623157E308" maxWidth="600.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <top>
-            <Pane fx:id="paneIcon" prefHeight="120.0" prefWidth="500.0" BorderPane.alignment="CENTER" />
+            <Pane fx:id="paneIcon" prefHeight="283.0" prefWidth="560.0" BorderPane.alignment="CENTER" />
          </top>
          <center>
             <GridPane BorderPane.alignment="CENTER">
@@ -43,7 +43,7 @@
                   <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <BorderPane.margin>
-                  <Insets bottom="15.0" left="50.0" right="50.0" top="15.0" />
+                  <Insets bottom="15.0" left="50.0" right="50.0" top="-15.0" />
                </BorderPane.margin>
                <children>
                   <TextField fx:id="txtEmail" maxHeight="1.7976931348623157E308" onKeyPressed="#handleTxtEmailKeyPressed" prefHeight="60.0" prefWidth="383.0" promptText="Email" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
@@ -99,7 +99,7 @@
                   </Label>
                   <ImageView fx:id="imageSelector" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#handleImageSelectorClicked" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <GridPane.margin>
-                        <Insets bottom="20.0" top="20.0" />
+                        <Insets bottom="20.0" top="-80.0" />
                      </GridPane.margin>
                      <cursor>
                         <Cursor fx:constant="HAND" />
