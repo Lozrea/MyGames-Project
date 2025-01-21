@@ -8,8 +8,8 @@ public class AppUserValidation {
   /** Patrón para la validación de username - Entre 1 y 10 caracteres con letras minúscula, mayúscula, números, _ y - */
   private static final Pattern PATTERN_USERNAME = Pattern.compile("[\\w-]{1,20}");
 
-  /** Patrón para la validación de una parte del nombre. Debe comenzar por mayúscula */
-  private static final Pattern PATTERN_NAME = Pattern.compile("[\\p{IsLatin}\\s]{1,100}");
+  /** Patrón para la validación del nombre */
+  private static final Pattern PATTERN_NAME = Pattern.compile("[\\p{IsLatin}\\s]{1,50}");
 
   /**
    * Patrón para la validación de contraseña - Entre 8 y 16 caracteres con al menos una letra minúscula, una mayúscula,
