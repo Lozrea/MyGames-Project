@@ -7,6 +7,7 @@ public class OpenFeignConstants {
   public static final String SECRET_KEY = "rgGpJrJ/7oxdH4sO6ObkKS6Hm0ufXDb98RbBfiOz8PkLa9dFRjXf43EB24fBKbNWjlTmfz$H9cjmv8NHcmC4LA$$";
 
   /** URL base hacia el backend para conexión a través de OpenFeign */
-  public static final String BASE_URL = "http://localhost:8080";
+  // "http://localhost:8080"
+  public static final String BASE_URL = "https://di-project.onrender.com";
 
 }

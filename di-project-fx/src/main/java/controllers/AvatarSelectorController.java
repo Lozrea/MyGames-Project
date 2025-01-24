@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
 /** Controlador del selector de avatares */
@@ -27,6 +28,10 @@ public class AvatarSelectorController implements Initializable {
 
   /** Controlador del registro */
   private RegisterController registerController;
+  
+  /** BorderPane fondo */
+  @FXML
+  private BorderPane background;
 
   /** GridPane con el selector de avatares */
   @FXML
@@ -56,8 +61,16 @@ public class AvatarSelectorController implements Initializable {
 
     this.avatarNumber = avatarNumber;
     registerController.setAvatarViewImage(this.avatarNumber);
-
     // TODO hay que añadir aquí un borde por css a la imagen para saber que está marcada
+    // Quitar la clase de selección de todas las imágenes
+    gridSelector.getChildren().forEach(node -> {
+        if (node instanceof ImageView) {
+            node.getStyleClass().remove("avatar-selected");
+        }
+    });
+
+    // Añadir la clase de selección a la imagen seleccionada
+    imageViewSelected.getStyleClass().add("avatar-selected");
 
   }
 
@@ -78,6 +91,19 @@ public class AvatarSelectorController implements Initializable {
   public void setCurrentAvatar(int avatarNumber) {
     this.avatarNumber = avatarNumber;
     // TODO hay que añadir aquí un borde por css a la imagen para saber que está marcada
+    // Quitar la clase de selección de todas las imágenes
+    gridSelector.getChildren().forEach(node -> {
+        if (node instanceof ImageView) {
+            node.getStyleClass().remove("avatar-selected");
+        }
+    });
+
+    // Añadir la clase de selección al avatar correspondiente
+    gridSelector.getChildren().forEach(node -> {
+        if (node instanceof ImageView && gridSelector.getChildren().indexOf(node) == avatarNumber) {
+            node.getStyleClass().add("avatar-selected");
+        }
+    });
   }
 
   @Override

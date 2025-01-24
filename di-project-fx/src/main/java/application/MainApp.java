@@ -206,6 +206,9 @@ public class MainApp extends Application {
       initHomeViewControllers(loaderMain, loaderNav);
 
       Scene scene = new Scene(scrollLayout, screenSize.getWidth(), screenSize.getHeight());
+      // Carga la hoja de estilos de la pantalla de inicio
+      scene.getStylesheets().add(getClass().getResource("/css/HomeStyle.css").toExternalForm());
+      //scene.getStylesheets().add(getClass().getResource("/css/NavigationStyle.css").toExternalForm());
       primaryStage.setScene(scene);
       primaryStage.show();
 

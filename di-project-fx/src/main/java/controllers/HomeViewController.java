@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import models.AppUser;
@@ -52,6 +53,10 @@ public class HomeViewController {
 
   /** Índice de la imagen actual */
   private int currentMainGameIndex = 0;
+  
+  /** BorderPane para el fondo */
+  @FXML
+  private BorderPane background;
 
   /** TimeLine para la búsqueda en la barra superior */
   private Timeline searchBarTimeLine;
@@ -169,10 +174,8 @@ public class HomeViewController {
 
     txtDescription.setEditable(false);
     
- // Asignar imagen al icono de la lupa
-    magnifyingGlassIcon.setImage(
-        new Image(HomeViewController.class.getResourceAsStream("/images/search-normal.png"))
-    );
+    // Asignar imagen al icono de la lupa
+    magnifyingGlassIcon.setImage(new Image(HomeViewController.class.getResourceAsStream("/images/search-normal.png")));
 
     // Se cargan los juegos recomendados
     chargeRecommendedGamesByFriends();

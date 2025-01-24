@@ -3,7 +3,10 @@
 /* General styles */
 .root {
     -fx-font-family: "Mona Sans";
-    -fx-background-color: #121922; /* Fondo oscuro */
+}
+
+#background {
+	-fx-background-color: #121922; /* Fondo oscuro */
 }
 
 /* Barra de búsqueda */
@@ -18,18 +21,7 @@
 }
 
 #searchBar:focused {
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 128, 0, 0.5), 10, 0, 0, 0);
-}
-
-/* Icono de lupa. REVISAR */
-#magnifyingGlassIcon {
-    -fx-opacity: 0.8;
-    -fx-cursor: hand;
-	-fx-background-image: url("../images/search-normal.png");
-}
-
-#magnifyingGlassIcon:hover {
-    -fx-opacity: 1; /* Más visible al pasar el ratón */
+    -fx-effect: dropshadow(three-pass-box, rgba(194, 110, 2, 0.653), 10, 0, 0, 0);
 }
 
 /* Imágenes principales y secundarias */
@@ -45,7 +37,7 @@ ImageView:hover {
     /*-fx-border-color: #fe6927; /* Verde al pasar el ratón */
     -fx-scale-x: 1.05; /* Agrandar ligeramente */
     -fx-scale-y: 1.05;
-    -fx-effect: dropshadow(gaussian, rgba(76, 175, 80, 0.5), 20, 0.3, 0, 0);
+    -fx-effect: dropshadow(gaussian, rgba(219, 151, 42, 0.5), 20, 0.3, 0, 0);
 }
 
 /* Etiqueta del nombre del usuario */
@@ -62,7 +54,7 @@ ImageView:hover {
 
 /* Caja de descripción */
 #txtDescription {
-    -fx-background-color: #ffffff; /* Fondo blanco */
+    -fx-background-color: linear-gradient(to bottom, #2c2c2c, #3a3a3a, #454545, #2c2c2c); /* Fondo grisáceo */
     -fx-border-color: #ccc;
     -fx-border-radius: 10px;
     -fx-padding: 10px;
@@ -89,4 +81,5 @@ ScrollPane .viewport {
 Label {
     -fx-font-size: 16px;
     -fx-text-fill: #FFFFFF; /* Color de texto */
+    -fx-font-weight: bold;
 }

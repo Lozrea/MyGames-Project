@@ -17,9 +17,9 @@
 
 <BorderPane fx:id="bkBorderPane" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1400.0" stylesheets="@../../resources/css/Register.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
    <center>
-      <BorderPane fx:id="bkFormulario" maxHeight="1.7976931348623157E308" maxWidth="600.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <BorderPane fx:id="bkFormulario" maxHeight="1.7976931348623157E308" maxWidth="600.0" prefHeight="764.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <top>
-            <Pane fx:id="paneIcon" prefHeight="283.0" prefWidth="560.0" BorderPane.alignment="CENTER" />
+            <Pane fx:id="paneIcon" prefHeight="131.0" prefWidth="549.0" BorderPane.alignment="CENTER" />
          </top>
          <center>
             <GridPane BorderPane.alignment="CENTER">
@@ -99,7 +99,7 @@
                   </Label>
                   <ImageView fx:id="imageSelector" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#handleImageSelectorClicked" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <GridPane.margin>
-                        <Insets bottom="20.0" top="-80.0" />
+                        <Insets bottom="20.0" top="20.0" />
                      </GridPane.margin>
                      <cursor>
                         <Cursor fx:constant="HAND" />

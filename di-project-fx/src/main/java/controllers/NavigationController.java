@@ -2,8 +2,10 @@ package controllers;
 
 import application.MainApp;
 import controllers.utils.NavigationPage;
+import controllers.utils.components.ToggleSwitch;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -176,20 +178,14 @@ public class NavigationController {
 
   /** Settea todos los iconos */
   public void setIcons() {
-
-    // TODO Cuando estén los iconos poner las rutas hacia cada uno :)
-    /*
-     * homeIcon.setImage(new Image(NavigationController.class.getResourceAsStream(""))); LibraryIcon.setImage(new
-     * Image(NavigationController.class.getResourceAsStream(""))); exploreIcon.setImage(new
-     * Image(NavigationController.class.getResourceAsStream(""))); friendsIcon.setImage(new
-     * Image(NavigationController.class.getResourceAsStream(""))); settingsIcon.setImage(new
-     * Image(NavigationController.class.getResourceAsStream(""))); supportIcon.setImage(new
-     * Image(NavigationController.class.getResourceAsStream("")));
-     * 
-     * themeIcon .setImage( new Image(NavigationController.class.getResourceAsStream(ToggleSwitch.isOn() ? "opcionOn" :
-     * "opcionOff")));
-     */
-
+    homeIcon.setImage(new Image(NavigationController.class.getResourceAsStream("/images/icons/Home icon.png")));
+    LibraryIcon.setImage(new Image(NavigationController.class.getResourceAsStream("/images/icons/save-2.png")));
+    exploreIcon.setImage(new Image(NavigationController.class.getResourceAsStream("/images/icons/eye.png")));
+    friendsIcon.setImage(new Image(NavigationController.class.getResourceAsStream("/images/icons/people.png")));
+    settingsIcon.setImage(new Image(NavigationController.class.getResourceAsStream("/images/icons/setting-2.png")));
+    supportIcon.setImage(new Image(NavigationController.class.getResourceAsStream("/images/icons/message-question.png")));
+    
+    themeIcon.setImage(new Image(NavigationController.class.getResourceAsStream(ToggleSwitch.isOn() ? "/images/icons/sun.png" : "/images/icons/moon.png")));
   }
 
   /**

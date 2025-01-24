@@ -3,7 +3,35 @@
 /* Estilo general para el fondo */
 #background {
     -fx-background-image: url("../images/FondoAvatarSelector.png");
-    -fx-background-size: cover;
+    -fx-background-size: auto;
     -fx-background-position: center;
 	-fx-alignment: center; /* Asegura que el contenido dentro se centre */
+}
+
+/* Estilo de los textos interactivos */
+.label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: "Mona Sans";
+    -fx-font-weight: bold;
+}
+#lblGoBackToRegister {
+	-fx-font-size: 12px;
+	-fx-text-fill: #fe6927;
+    -fx-font-family: "Mona Sans";
+}
+
+/* Estilo para las imágenes de los avatares */
+.avatar-image {
+    -fx-background-radius: 50%; /* Hace que los bordes sean circulares */
+    -fx-border-radius: 50%; /* Hace que el borde siga siendo circular */
+    -fx-border-color: transparent; /* Sin borde inicialmente */
+    -fx-border-width: 3px; /* Ancho del borde */
+    -fx-padding: 5px; /* Espaciado interno para que se vea mejor */
+}
+
+/* Estilo para resaltar el avatar seleccionado */
+.avatar-selected {
+    -fx-border-color: #fe6927; /* Color del borde (naranja en este caso) */
+    -fx-border-width: 3px; /* Ancho del borde */
 }
