@@ -40,4 +40,10 @@ public class Routes {
   /** Ruta hacia la vista de registro */
   public static final String REGISTER = "/views/Register.fxml";
 
+  /** Ruta hacia la vista del juego */
+  public static final String GAME = "/views/GameView.fxml";
+
+  /** Ruta hacia la vista de creación de reseñas */
+  public static final String CREATE_REVIEW = "/views/CommentaryView.fxml";
+
 }

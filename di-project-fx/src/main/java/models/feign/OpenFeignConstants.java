@@ -8,6 +8,7 @@ public class OpenFeignConstants {
 
   /** URL base hacia el backend para conexión a través de OpenFeign */
   // "http://localhost:8080"
+  // "https://di-project.onrender.com"
   public static final String BASE_URL = "https://di-project.onrender.com";
 
 }
