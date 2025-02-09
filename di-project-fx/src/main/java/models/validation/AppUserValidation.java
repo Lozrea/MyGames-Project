@@ -16,7 +16,7 @@ public class AppUserValidation {
    * un número y un símbolo especial entre los dados en la expresión regular
    */
   private static final Pattern PATTERN_PASSWORD = Pattern
-      .compile("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\.;,:\\/\\*&%$\\(\\)])[a-zA-Z\\d\\.;,:\\/\\*&%$\\(\\)]{8,16}");
+      .compile("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z\\d]).{8,16}");
 
   /** Patrón para la validación de email */
   private static final Pattern PATTERN_EMAIL = Pattern

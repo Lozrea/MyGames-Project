@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import application.MainApp;
+import controllers.utils.NavigationPage;
 import controllers.utils.OrderingConstants;
 import controllers.utils.components.Images;
 import javafx.animation.KeyFrame;
@@ -43,8 +44,6 @@ import models.UserGame;
 import models.UserGameResponse;
 import models.error.GenericApiException;
 import models.error.ResourceNotFoundException;
-import models.feign.OpenFeignConstants;
-import models.feign.client.UserGameClient;
 import views.Routes;
 
 /** Controlador de la página de exploración */
@@ -67,9 +66,6 @@ public class LibraryViewController {
 
   /** Usuario loggeado en la aplicación */
   private AppUser appUser;
-
-  /** Cliente de asociaciones juego - usuario */
-  private UserGameClient userGameClient;
 
   /** Atributo para el conteo del juego mostrado. Usado para el cálculo de la posición sobre el gridPane */
   private int currentGameCount = 0;
@@ -320,21 +316,21 @@ public class LibraryViewController {
   }
 
   /**
-   * Setter - Cliente de asociaciones juego - usuario
-   * 
-   * @param userGameClient Cliente de asociaciones juego - usuario
-   */
-  public void setUserGameClient(UserGameClient userGameClient) {
-    this.userGameClient = userGameClient;
-  }
-
-  /**
    * Setter - currentPageNumber
    * 
    * @param currentPageNumber Página actual mostrada
    */
   public void setCurrentPageNumber(int currentPageNumber) {
     this.currentPageNumber = currentPageNumber;
+  }
+
+  /**
+   * Setter - userGameResponse
+   * 
+   * @param userGameResponse Respuesta con los juegos asociados al usuario
+   */
+  public void setUserGameResponse(UserGameResponse userGameResponse) {
+    this.userGameResponse = userGameResponse;
   }
 
   /**
@@ -361,9 +357,6 @@ public class LibraryViewController {
    * @throws ResourceNotFoundException En caso de no encontrar juegos
    */
   private void chargeGames() {
-
-    // Carga juegos en función de si son creados por la comunidad
-    userGameResponse = userGameClient.getUserGamesByUserId(OpenFeignConstants.SECRET_KEY, appUser.getId());
 
     // Se muestran los juegos y se añaden sus funcionalidades (Primera página de juegos)
     allGamesList = userGameResponse.getGames().stream().map(UserGame::getGame).toList();
@@ -394,7 +387,7 @@ public class LibraryViewController {
       setMetacritic(game);
 
       element.setCursor(Cursor.HAND);
-      element.setOnMouseClicked(event -> mainApp.initGameView(game.getId()));
+      element.setOnMouseClicked(event -> mainApp.initGameView(game.getId(), NavigationPage.LIBRARY));
 
       currentGameCount++;
 
