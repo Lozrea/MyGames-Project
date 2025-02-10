@@ -132,6 +132,9 @@ public class CommentaryViewController {
           .replaceAll(ug -> ug.getGame().getId().equals(savedUserGame.getGame().getId()) ? savedUserGame : ug);
     }
 
+    gameViewController.getLblAddReview().setVisible(false);
+    gameViewController.getBtnModReview().setVisible(true);
+
     this.stage.close();
 
   }
@@ -574,6 +577,8 @@ public class CommentaryViewController {
         img05Star.setOpacity(1);
       }
 
+    } else {
+      stars.forEach(iv -> iv.setOpacity(1));
     }
   }
 

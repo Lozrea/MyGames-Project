@@ -87,15 +87,21 @@
                         <Insets bottom="5.0" top="5.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Label fx:id="lblUsedEmail" text="Label" textFill="#bf0000" visible="false" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+                  <Label fx:id="lblUsedEmail" text="Label" visible="false" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold" size="10.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
                   </Label>
-                  <Label fx:id="lblUsedUsername" text="Label" textFill="#bf0000" visible="false" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="4">
+                  <Label fx:id="lblUsedUsername" text="Label" visible="false" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="4">
                      <font>
                         <Font name="System Bold" size="10.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
                   </Label>
                   <ImageView fx:id="imageSelector" fitHeight="120.0" fitWidth="120.0" onMouseClicked="#handleImageSelectorClicked" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <GridPane.margin>
@@ -108,22 +114,22 @@
                         <Image url="@../../resources/images/Avatares/0.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="lblSamePasswords" text="Las contraseñas deben coincidir" textFill="#bf0000" visible="false" wrapText="true" GridPane.rowIndex="10">
+                  <Label fx:id="lblSamePasswords" text="Las contraseñas deben coincidir" visible="false" wrapText="true" GridPane.rowIndex="10">
                      <font>
                         <Font name="System Bold" size="10.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblIncorrectPassword" text="Debe incluir una minúscula, una mayúscula, un número y un símbolo" textFill="#bf0000" visible="false" wrapText="true" GridPane.rowIndex="8">
+                  <Label fx:id="lblIncorrectPassword" text="Debe incluir una minúscula, una mayúscula, un número y un símbolo" visible="false" wrapText="true" GridPane.rowIndex="8">
                      <font>
                         <Font name="System Bold" size="10.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblIncorrectName" text="Debe constar de, como maximo, 50 letras y/o espacios" textFill="#bf0000" visible="false" wrapText="true" GridPane.rowIndex="6">
+                  <Label fx:id="lblIncorrectName" text="Debe constar de, como maximo, 50 letras y/o espacios" visible="false" wrapText="true" GridPane.rowIndex="6">
                      <font>
                         <Font name="System Bold" size="10.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblRegisterError" text="Por favor revise los campos antes de continuar con el registro" textFill="#bf0000" visible="false" wrapText="true" GridPane.rowIndex="12">
+                  <Label fx:id="lblRegisterError" text="Por favor revise los campos antes de continuar con el registro" visible="false" wrapText="true" GridPane.rowIndex="12">
                      <font>
                         <Font name="System Bold" size="10.0" />
                      </font>

@@ -345,8 +345,6 @@ public class MainApp extends Application {
    * 
    * @param userGame           Juego asociado al usuario
    * @param gameViewController Controlador de la vista del juego
-   * 
-   * @throws IOException
    */
   public void initCommentaryView(UserGame userGame, GameViewController gameViewController) {
 
