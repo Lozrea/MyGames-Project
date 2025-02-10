@@ -79,6 +79,9 @@ public class ExploreViewController {
   /** Altura de una imagen de un juego */
   private static final int IMAGE_HEIGHT = 180;
 
+  /** Mayor número de páginas disponibles por la API - 10000 juegos / 12 juegos por pagina */
+  private static final int MAX_PAGES = 833;
+
   /** Clase principal común */
   private MainApp mainApp;
 
@@ -399,6 +402,14 @@ public class ExploreViewController {
         ? gameClient.getGamesFromDb(OpenFeignConstants.SECRET_KEY, searchParams)
         : gameClient.getGamesFromApi(OpenFeignConstants.SECRET_KEY, searchParams);
 
+    if (currentGameResponse.getPages() > MAX_PAGES) {
+      currentGameResponse.setPages(MAX_PAGES);
+    }
+
+    if (currentGameResponse.getPages() == MAX_PAGES) {
+      currentGameResponse.setNext(false);
+    }
+
     // IDs de los juegos obteniendo UserGames para saber si el usuario los tiene añadidos (API ID / ID)
     try {
       shownGamesIds = getIdsFromUserGames();
@@ -408,6 +419,14 @@ public class ExploreViewController {
     }
 
     // Se muestran los juegos y se añaden sus funcionalidades
+    showGamesFromResponse();
+
+    currentGameCount = 0;
+  }
+
+  /** Muestra los juegos a partir de la respuesta recibida */
+  private void showGamesFromResponse() {
+
     currentGameResponse.getResults().forEach(game -> {
 
       Node element = getElementToShowFromGame(game);
@@ -431,8 +450,6 @@ public class ExploreViewController {
       });
       currentGameCount++;
     });
-
-    currentGameCount = 0;
   }
 
   /**
@@ -619,7 +636,7 @@ public class ExploreViewController {
             .getUserGameResponse()
             .getGames()
             .stream()
-            .filter(ug -> ug.getGame().getId() != gameId)
+            .filter(ug -> !ug.getGame().getId().equals(gameId))
             .findFirst()
             .get();
 

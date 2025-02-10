@@ -447,6 +447,15 @@ public class GameViewController {
   }
 
   /**
+   * Getter - btnModReview
+   * 
+   * @return Botón para la modificación de reseñas
+   */
+  public Button getBtnModReview() {
+    return btnModReview;
+  }
+
+  /**
    * Prepara un nuevo UserGame para ser insertado en el sistema
    * 
    * @param game Juego a asociar con el usuario
@@ -467,6 +476,10 @@ public class GameViewController {
   /** Settea todos los labels del juego */
   private void setLabels() {
     game.getTags().stream().limit(4).forEach(t -> flowPaneTags.getChildren().add(new Label(t.getName())));
+    if (game.getTags().size() > 4) {
+      flowPaneTags.getChildren().add(new Label("+"));
+    }
+
     game.getPlatforms().forEach(p -> flowPanePlatforms.getChildren().add(new Label(p.getName())));
 
     gameTitle.setText(game.getName());
@@ -479,8 +492,15 @@ public class GameViewController {
 
     metacriticScore.setText(game.getMetacriticRating() != null ? String.valueOf(game.getMetacriticRating()) : "-");
     lblReleaseDate.setText(game.getReleasedate() != null ? game.getReleasedate().format(DTF) : "");
-    lblDeveloper.setText(game.getDevelopers().stream().map(Developer::getName).reduce("", (d1, d2) -> d1 + " / " + d2));
-    lblGenre.setText(game.getGenres().stream().map(Genre::getName).reduce("", (g1, g2) -> g1 + ", " + g2));
+    lblDeveloper
+        .setText(game
+            .getDevelopers()
+            .stream()
+            .map(Developer::getName)
+            .reduce("", (d1, d2) -> d1.isBlank() ? d2 : d1 + " / " + d2));
+    lblGenre
+        .setText(
+            game.getGenres().stream().map(Genre::getName).reduce("", (g1, g2) -> g1.isBlank() ? g2 : g1 + ", " + g2));
   }
 
   /** Carga los screenshots en el panel destinado a ello */
