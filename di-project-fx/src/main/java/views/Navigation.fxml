@@ -78,7 +78,7 @@
             <Font size="18.0" />
          </font>
          <cursor>
-            <Cursor fx:constant="HAND" />
+            <Cursor fx:constant="DEFAULT" />
          </cursor>
       </Label>
       <ImageView fx:id="friendsIcon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
@@ -91,7 +91,7 @@
             <Insets left="50.0" />
          </GridPane.margin>
          <cursor>
-            <Cursor fx:constant="HAND" />
+            <Cursor fx:constant="DEFAULT" />
          </cursor>
       </Label>
       <ImageView fx:id="supportIcon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="7" GridPane.valignment="CENTER">
@@ -110,7 +110,7 @@
             <Insets />
          </GridPane.margin>
          <cursor>
-            <Cursor fx:constant="HAND" />
+            <Cursor fx:constant="DEFAULT" />
          </cursor>
       </Label>
       <StackPane fx:id="toggleSwitchLayout" prefHeight="150.0" prefWidth="200.0" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER">

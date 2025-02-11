@@ -3,6 +3,7 @@ package controllers;
 import java.util.HashMap;
 
 import application.MainApp;
+import controllers.utils.NavigationPage;
 import controllers.utils.components.Images;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -53,7 +54,7 @@ public class HomeViewController {
 
   /** Índice de la imagen actual */
   private int currentMainGameIndex = 0;
-  
+
   /** BorderPane para el fondo */
   @FXML
   private BorderPane background;
@@ -134,7 +135,7 @@ public class HomeViewController {
   void openMainGame(MouseEvent event) {
     Game currentGame = recommendedGames.getResults().get(currentMainGameIndex);
 
-    mainApp.initGameView(currentGame.getApiId(), currentGame.getScreenshots());
+    mainApp.initGameView(currentGame.getApiId(), currentGame.getScreenshots(), NavigationPage.HOME);
   }
 
   /**
@@ -173,7 +174,7 @@ public class HomeViewController {
     hBoxRecommendedGamesByFriends.setPadding(new Insets(10));
 
     txtDescription.setEditable(false);
-    
+
     // Asignar imagen al icono de la lupa
     magnifyingGlassIcon.setImage(new Image(HomeViewController.class.getResourceAsStream("/images/search-normal.png")));
 
@@ -250,7 +251,7 @@ public class HomeViewController {
           imageView.setCursor(Cursor.HAND);
 
           // Redirección al clickar sobre la imagen
-          imageView.setOnMouseClicked(event -> mainApp.initGameView(g.getGame().getId()));
+          imageView.setOnMouseClicked(event -> mainApp.initGameView(g.getGame().getId(), NavigationPage.HOME));
 
           hBoxRecommendedGamesByFriends.getChildren().add(imageView);
         }
@@ -274,7 +275,8 @@ public class HomeViewController {
         imageView.setCursor(Cursor.HAND);
 
         // Redirección al clickar sobre la imagen
-        imageView.setOnMouseClicked(event -> mainApp.initGameView(g.getApiId(), g.getScreenshots()));
+        imageView
+            .setOnMouseClicked(event -> mainApp.initGameView(g.getApiId(), g.getScreenshots(), NavigationPage.HOME));
 
         hBoxRecommendedGames.getChildren().add(imageView);
       }

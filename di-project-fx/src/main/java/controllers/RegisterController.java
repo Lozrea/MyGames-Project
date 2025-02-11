@@ -26,7 +26,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -41,12 +40,6 @@ import views.Routes;
 
 /** Controlador del registro */
 public class RegisterController implements Initializable {
-
-  /** Color usado para formularios con campo incorrecto */
-  private static final Color INCORRECT_FIELD_COLOR = Color.color(0.75, 0, 0);
-
-  /** Color usado para formularios con campo correcto */
-  private static final Color CORRECT_FIELD_COLOR = Color.color(0, 0.35, 0);
 
   /** Cliente para la obtención de datos de usuarios */
   private UserClient userClient;
@@ -110,12 +103,12 @@ public class RegisterController implements Initializable {
   /** Label que indica que el username está en uso */
   @FXML
   private Label lblUsedUsername;
-  
+
   /** BorderPane para el fondo de la pantalla */
   @FXML
   private BorderPane bkBorderPane;
-  
-  /**BorderPane para el fondo del formulario*/
+
+  /** BorderPane para el fondo del formulario */
   @FXML
   private BorderPane bkFormulario;
 
@@ -356,17 +349,14 @@ public class RegisterController implements Initializable {
 
         userClient.getUserByEmail(OpenFeignConstants.SECRET_KEY, txtEmail.getText());
         lblUsedEmail.setText(String.format("Email %s en uso", txtEmail.getText()));
-        lblUsedEmail.setTextFill(INCORRECT_FIELD_COLOR);
 
         // Error de formato en el email
       } catch (IllegalArgumentException e) {
         lblUsedEmail.setText("El formato de email no es correcto");
-        lblUsedEmail.setTextFill(INCORRECT_FIELD_COLOR);
 
         // No hay coincidencia de email
       } catch (ResourceNotFoundException e) {
         lblUsedEmail.setText(String.format("Email %s disponible", txtEmail.getText()));
-        lblUsedEmail.setTextFill(CORRECT_FIELD_COLOR);
       }
 
       lblUsedEmail.setVisible(true);
@@ -387,17 +377,14 @@ public class RegisterController implements Initializable {
 
         userClient.getUserByUsername(OpenFeignConstants.SECRET_KEY, txtUsername.getText());
         lblUsedUsername.setText(String.format("Nombre de usuario %s en uso", txtUsername.getText()));
-        lblUsedUsername.setTextFill(INCORRECT_FIELD_COLOR);
 
         // Formato incorrecto
       } catch (IllegalArgumentException e) {
         lblUsedUsername.setText("Debe tener entre 1 y 20 caracteres (letras, números, _)");
-        lblUsedUsername.setTextFill(INCORRECT_FIELD_COLOR);
 
         // No hay coincidencia de username
       } catch (ResourceNotFoundException e) {
         lblUsedUsername.setText(String.format("Nombre de usuario %s disponible", txtUsername.getText()));
-        lblUsedUsername.setTextFill(CORRECT_FIELD_COLOR);
       }
 
       lblUsedUsername.setVisible(true);

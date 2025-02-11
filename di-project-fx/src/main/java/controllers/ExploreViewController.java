@@ -10,6 +10,7 @@ import org.controlsfx.control.CheckComboBox;
 
 import application.MainApp;
 import controllers.utils.AlertUtils;
+import controllers.utils.NavigationPage;
 import controllers.utils.OrderingConstants;
 import controllers.utils.components.Images;
 import controllers.utils.wrappers.GenreWrapper;
@@ -77,6 +78,9 @@ public class ExploreViewController {
 
   /** Altura de una imagen de un juego */
   private static final int IMAGE_HEIGHT = 180;
+
+  /** Mayor número de páginas disponibles por la API - 10000 juegos / 12 juegos por pagina */
+  private static final int MAX_PAGES = 833;
 
   /** Clase principal común */
   private MainApp mainApp;
@@ -287,6 +291,15 @@ public class ExploreViewController {
   }
 
   /**
+   * Getter - Parámetros de búsqueda
+   * 
+   * @return Map(String, Object)
+   */
+  public Map<String, Object> getSearchParams() {
+    return searchParams;
+  }
+
+  /**
    * Setter - MainApp
    * 
    * @param mainApp Clase principal
@@ -358,15 +371,6 @@ public class ExploreViewController {
     return currentGameResponse;
   }
 
-  /**
-   * Getter - Parámetros de búsqueda
-   * 
-   * @return Map(String, Object)
-   */
-  public Map<String, Object> getSearchParams() {
-    return searchParams;
-  }
-
   /** Inicializa los ComboBox de filtrado y ordenación */
   private void initComboBoxes() {
 
@@ -398,6 +402,14 @@ public class ExploreViewController {
         ? gameClient.getGamesFromDb(OpenFeignConstants.SECRET_KEY, searchParams)
         : gameClient.getGamesFromApi(OpenFeignConstants.SECRET_KEY, searchParams);
 
+    if (currentGameResponse.getPages() > MAX_PAGES) {
+      currentGameResponse.setPages(MAX_PAGES);
+    }
+
+    if (currentGameResponse.getPages() == MAX_PAGES) {
+      currentGameResponse.setNext(false);
+    }
+
     // IDs de los juegos obteniendo UserGames para saber si el usuario los tiene añadidos (API ID / ID)
     try {
       shownGamesIds = getIdsFromUserGames();
@@ -407,6 +419,14 @@ public class ExploreViewController {
     }
 
     // Se muestran los juegos y se añaden sus funcionalidades
+    showGamesFromResponse();
+
+    currentGameCount = 0;
+  }
+
+  /** Muestra los juegos a partir de la respuesta recibida */
+  private void showGamesFromResponse() {
+
     currentGameResponse.getResults().forEach(game -> {
 
       Node element = getElementToShowFromGame(game);
@@ -422,16 +442,14 @@ public class ExploreViewController {
       element.setOnMouseClicked(event -> {
 
         if (cbCommunityCreated.isSelected()) {
-          mainApp.initGameView(game.getId());
+          mainApp.initGameView(game.getId(), NavigationPage.EXPLORE);
 
         } else {
-          mainApp.initGameView(game.getApiId(), game.getScreenshots());
+          mainApp.initGameView(game.getApiId(), game.getScreenshots(), NavigationPage.EXPLORE);
         }
       });
       currentGameCount++;
     });
-
-    currentGameCount = 0;
   }
 
   /**
@@ -601,7 +619,9 @@ public class ExploreViewController {
 
       if (addRemoveButton.getText().equals("+")) {
         UserGame userGame = prepareUserGameToSave(gameToUse);
-        userGameClient.saveUserGame(OpenFeignConstants.SECRET_KEY, userGame);
+        UserGame savedUserGame = userGameClient.saveUserGame(OpenFeignConstants.SECRET_KEY, userGame);
+        mainApp.getUserGameResponse().getGames().add(savedUserGame);
+        mainApp.getUserGameResponse().setCount(mainApp.getUserGameResponse().getCount() + 1);
 
         Alert alert = AlertUtils.getAddedGameToLibraryAlert();
         alert.showAndWait();
@@ -610,6 +630,18 @@ public class ExploreViewController {
 
       } else {
         userGameClient.deleteUserGame(OpenFeignConstants.SECRET_KEY, appUser.getId(), gameToUse.getId());
+
+        final Long gameId = gameToUse.getId();
+        UserGame foundUserGame = mainApp
+            .getUserGameResponse()
+            .getGames()
+            .stream()
+            .filter(ug -> !ug.getGame().getId().equals(gameId))
+            .findFirst()
+            .get();
+
+        mainApp.getUserGameResponse().getGames().remove(foundUserGame);
+        mainApp.getUserGameResponse().setCount(mainApp.getUserGameResponse().getCount() - 1);
 
         Alert alert = AlertUtils.getDeletedGameFromLibraryAlert();
         alert.showAndWait();

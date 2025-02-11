@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="723.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CommentaryViewController">
+   <padding>
+      <Insets bottom="20.0" left="50.0" right="50.0" top="50.0" />
+   </padding>
+   <center>
+      <GridPane hgap="15.0" prefHeight="500.0" prefWidth="500.0" vgap="20.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="100.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="40.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextArea fx:id="txtReview" prefHeight="178.0" prefWidth="392.0" GridPane.rowIndex="3">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </TextArea>
+            <Label fx:id="lblScore" text="labelScore">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <children>
+                  <ImageView fx:id="img05Star" fitHeight="60.0" fitWidth="30.0" onMouseClicked="#onImg05StarClicked" onMouseEntered="#onImg05StarEntered" onMouseExited="#onImg05StarExited" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="img1Star" fitHeight="60.0" fitWidth="50.0" onMouseClicked="#onImg1StarClicked" onMouseEntered="#onImg1StarEntered" onMouseExited="#onImg1StarExited" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="img15Star" fitHeight="60.0" fitWidth="30.0" onMouseClicked="#onImg15StarClicked" onMouseEntered="#onImg15StarEntered" onMouseExited="#onImg15StarExited" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="img2Star" fitHeight="60.0" fitWidth="50.0" onMouseClicked="#onImg2StarClicked" onMouseEntered="#onImg2StarEntered" onMouseExited="#onImg2StarExited" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="img25Star" fitHeight="60.0" fitWidth="30.0" onMouseClicked="#onImg25StarClicked" onMouseEntered="#onImg25StarEntered" onMouseExited="#onImg25StarExited" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="img3Star" fitHeight="60.0" fitWidth="50.0" onMouseClicked="#onImg3StarClicked" onMouseEntered="#onImg3StarEntered" onMouseExited="#onImg3StarExited" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="img35Star" fitHeight="60.0" fitWidth="30.0" onMouseClicked="#onImg35StarClicked" onMouseEntered="#onImg35StarEntered" onMouseExited="#onImg35StarExited" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="img4Star" fitHeight="60.0" fitWidth="50.0" onMouseClicked="#onImg4StarClicked" onMouseEntered="#onImg4StarEntered" onMouseExited="#onImg4StarExited" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="img45Star" fitHeight="60.0" fitWidth="30.0" onMouseClicked="#onImg45StarClicked" onMouseEntered="#onImg45StarEntered" onMouseExited="#onImg45StarExited" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="img5Star" fitHeight="60.0" fitWidth="50.0" onMouseClicked="#onImg5StarClicked" onMouseEntered="#onImg5StarEntered" onMouseExited="#onImg5StarExited" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children>
+            </HBox>
+            <Label text="Escribe tu reseña" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </GridPane>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" maxHeight="70.0" prefHeight="100.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onBtnSaveClicked" text="Guardar">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onBtnCancelClicked" text="Cancelar">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+         <padding>
+            <Insets right="30.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <top>
+      <Label text="Añadir reseña" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets bottom="30.0" />
+         </BorderPane.margin>
+      </Label>
+   </top>
+</BorderPane>

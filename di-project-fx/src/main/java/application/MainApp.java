@@ -1,10 +1,13 @@
 package application;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import controllers.CommentaryViewController;
 import controllers.CreateGameViewController;
 import controllers.ExploreViewController;
+import controllers.GameViewController;
 import controllers.HomeViewController;
 import controllers.LibraryViewController;
 import controllers.LoginController;
@@ -33,6 +36,9 @@ import models.Game;
 import models.Genre;
 import models.PlatformSimple;
 import models.Screenshot;
+import models.UserGame;
+import models.UserGameResponse;
+import models.error.ResourceNotFoundException;
 import models.feign.FeignClientFactory;
 import models.feign.OpenFeignConstants;
 import models.feign.client.GameClient;
@@ -70,6 +76,9 @@ public class MainApp extends Application {
 
   /** Toggle Switch para la elección del tema claro / oscuro. Se mantendrá entre páginas */
   private StackPane toggleSwitch;
+
+  /** Respuesta con los juegos asociados al usuario loggeado */
+  private UserGameResponse userGameResponse;
 
   /**
    * Método main. Inicializa la aplicación
@@ -114,10 +123,10 @@ public class MainApp extends Application {
       loginController.setMainApp(this);
 
       Scene scene = new Scene(loginLayout, screenSize.getWidth(), screenSize.getHeight());
-      
+
       // Carga la hoja de estilos del Login
       scene.getStylesheets().add(getClass().getResource("/css/Login.css").toExternalForm());
-      
+
       primaryStage.setScene(scene);
       primaryStage.show();
 
@@ -179,6 +188,8 @@ public class MainApp extends Application {
   /** Carga la vista de la pantalla de inicio */
   public void initHomeView() {
 
+    chargeInitialData();
+
     try {
       FXMLLoader loaderMain = new FXMLLoader();
       FXMLLoader loaderNav = new FXMLLoader();
@@ -208,7 +219,7 @@ public class MainApp extends Application {
       Scene scene = new Scene(scrollLayout, screenSize.getWidth(), screenSize.getHeight());
       // Carga la hoja de estilos de la pantalla de inicio
       scene.getStylesheets().add(getClass().getResource("/css/HomeStyle.css").toExternalForm());
-      //scene.getStylesheets().add(getClass().getResource("/css/NavigationStyle.css").toExternalForm());
+      // scene.getStylesheets().add(getClass().getResource("/css/NavigationStyle.css").toExternalForm());
       primaryStage.setScene(scene);
       primaryStage.show();
 
@@ -224,33 +235,11 @@ public class MainApp extends Application {
       FXMLLoader loaderMain = new FXMLLoader();
       FXMLLoader loaderNav = new FXMLLoader();
 
-      ScrollPane scrollLayout = initBaseExploreViews(loaderMain, loaderNav);
+      ScrollPane scrollLayout = initBaseSplittedViews(loaderMain, loaderNav, Routes.EXPLORE);
 
       // Controladores
       initExploreViewController(loaderMain, null);
       initNavigationController(loaderNav, NavigationPage.EXPLORE);
-
-      Scene scene = new Scene(scrollLayout, screenSize.getWidth(), screenSize.getHeight());
-      primaryStage.setScene(scene);
-      primaryStage.show();
-
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /** Carga la vista de la pantalla de la biblioteca */
-  public void initLibraryView() {
-
-    try {
-      FXMLLoader loaderMain = new FXMLLoader();
-      FXMLLoader loaderNav = new FXMLLoader();
-
-      ScrollPane scrollLayout = initBaseLibraryViews(loaderMain, loaderNav);
-
-      // Controladores
-      initLibraryViewController(loaderMain);
-      initNavigationController(loaderNav, NavigationPage.LIBRARY);
 
       Scene scene = new Scene(scrollLayout, screenSize.getWidth(), screenSize.getHeight());
       primaryStage.setScene(scene);
@@ -272,7 +261,7 @@ public class MainApp extends Application {
       FXMLLoader loaderMain = new FXMLLoader();
       FXMLLoader loaderNav = new FXMLLoader();
 
-      ScrollPane scrollLayout = initBaseExploreViews(loaderMain, loaderNav);
+      ScrollPane scrollLayout = initBaseSplittedViews(loaderMain, loaderNav, Routes.EXPLORE);
 
       // Controladores
       initExploreViewController(loaderMain, searchText);
@@ -287,13 +276,55 @@ public class MainApp extends Application {
     }
   }
 
+  /** Carga la vista de la pantalla de la biblioteca */
+  public void initLibraryView() {
+
+    try {
+      FXMLLoader loaderMain = new FXMLLoader();
+      FXMLLoader loaderNav = new FXMLLoader();
+
+      ScrollPane scrollLayout = initBaseSplittedViews(loaderMain, loaderNav, Routes.LIBRARY);
+
+      // Controladores
+      initLibraryViewController(loaderMain);
+      initNavigationController(loaderNav, NavigationPage.LIBRARY);
+
+      Scene scene = new Scene(scrollLayout, screenSize.getWidth(), screenSize.getHeight());
+      primaryStage.setScene(scene);
+      primaryStage.show();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   /**
    * Inicializa la vista de un juego
    * 
-   * @param id ID del juego
+   * @param gameId   ID del juego
+   * @param prevPage Página anterior
    */
-  public void initGameView(Long id) {
-    // TODO APERTURA DE LA VISTA JUEGO
+  public void initGameView(Long gameId, NavigationPage prevPage) {
+
+    Game game = gameClient.getGameById(OpenFeignConstants.SECRET_KEY, gameId);
+
+    try {
+      FXMLLoader loaderGame = new FXMLLoader();
+      FXMLLoader loaderNav = new FXMLLoader();
+
+      ScrollPane scrollLayout = initBaseSplittedViews(loaderGame, loaderNav, Routes.GAME);
+
+      // Controladores
+      initGameViewController(loaderGame, game, prevPage);
+      initNavigationController(loaderNav, prevPage);
+
+      Scene scene = new Scene(scrollLayout, screenSize.getWidth(), screenSize.getHeight());
+      primaryStage.setScene(scene);
+      primaryStage.show();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -301,13 +332,56 @@ public class MainApp extends Application {
    * 
    * @param externalId  ID externo a la API
    * @param screenshots Capturas de pantalla
+   * @param prevPage    Página anterior
    */
-  public void initGameView(Long externalId, List<Screenshot> screenshots) {
+  public void initGameView(Long externalId, List<Screenshot> screenshots, NavigationPage prevPage) {
 
     Game game = gameClient.getGameByApiId(OpenFeignConstants.SECRET_KEY, externalId, screenshots);
-    initGameView(game.getId());
+    initGameView(game.getId(), prevPage);
   }
 
+  /**
+   * Inicializa la vista para añadir o modificar un comentario de un juego completado
+   * 
+   * @param userGame           Juego asociado al usuario
+   * @param gameViewController Controlador de la vista del juego
+   */
+  public void initCommentaryView(UserGame userGame, GameViewController gameViewController) {
+
+    try {
+      // Stage
+      Stage newStage = new Stage();
+
+      newStage.initModality(Modality.APPLICATION_MODAL);
+      newStage.setTitle("Añadir Reseña");
+
+      // Carga del recurso y controlador
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(MainApp.class.getResource(Routes.CREATE_REVIEW));
+      BorderPane createReviewLayout = (BorderPane) loader.load();
+
+      CommentaryViewController controller = loader.getController();
+      controller.setGameViewController(gameViewController);
+      controller.setStage(newStage);
+      controller.setUserGame(userGame);
+      controller.setUserGameClient(userGameClient);
+      controller.setMainApp(this);
+
+      // Inicialización
+      controller.chargeData();
+
+      // Escena y muestra
+      Scene scene = new Scene(createReviewLayout);
+
+      newStage.setScene(scene);
+      newStage.show();
+
+    } catch (IOException e) {
+      AlertUtils.getUnexpectedErrorAlert().showAndWait();
+    }
+  }
+
+  /** Inicia la vista para la creación de un nuevo juego */
   public void initCreateGameView() {
 
     try {
@@ -370,6 +444,15 @@ public class MainApp extends Application {
   }
 
   /**
+   * Getter - userGameResponse
+   * 
+   * @return UserGameResponse
+   */
+  public UserGameResponse getUserGameResponse() {
+    return userGameResponse;
+  }
+
+  /**
    * Inicializa los controladores necesarios para la vista principal
    * 
    * @param loaderMain Loader del controlador para el home
@@ -399,16 +482,18 @@ public class MainApp extends Application {
   }
 
   /**
-   * Inicia las vistas base de exploración de juegos
+   * Inicia las vistas base con un split separador
    * 
-   * @param loaderMain Cargador de la vista principal
-   * @param loaderNav  Cargador de la vista de navegación
+   * @param loaderMain    Cargador de la vista principal
+   * @param loaderNav     Cargador de la vista de navegación
+   * @param mainViewRoute Ruta hacia la vista principal a mostrar
    * 
    * @return ScrollPane
    * 
    * @throws IOException En caso de error
    */
-  private ScrollPane initBaseExploreViews(FXMLLoader loaderMain, FXMLLoader loaderNav) throws IOException {
+  private ScrollPane initBaseSplittedViews(FXMLLoader loaderMain, FXMLLoader loaderNav, String mainViewRoute)
+      throws IOException {
 
     // ScrollPane
     ScrollPane scrollLayout = new ScrollPane();
@@ -424,43 +509,10 @@ public class MainApp extends Application {
 
     navigationLayout.setAlignment(Pos.TOP_LEFT);
 
-    loaderMain.setLocation(MainApp.class.getResource(Routes.EXPLORE));
+    loaderMain.setLocation(MainApp.class.getResource(mainViewRoute));
     BorderPane exploreLayout = (BorderPane) loaderMain.load();
 
     splitLayout.getItems().addAll(navigationLayout, exploreLayout);
-    return scrollLayout;
-  }
-
-  /**
-   * Inicia las vistas base de la biblioteca
-   * 
-   * @param loaderMain Cargador de la vista principal
-   * @param loaderNav  Cargador de la vista de navegación
-   * 
-   * @return ScrollPane
-   * 
-   * @throws IOException En caso de error
-   */
-  private ScrollPane initBaseLibraryViews(FXMLLoader loaderMain, FXMLLoader loaderNav) throws IOException {
-
-    // ScrollPane
-    ScrollPane scrollLayout = new ScrollPane();
-    scrollLayout.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-
-    // SplitPane interno
-    SplitPane splitLayout = new SplitPane();
-    scrollLayout.setContent(splitLayout);
-
-    // Navegación y Home
-    loaderNav.setLocation(MainApp.class.getResource(Routes.NAVIGATION));
-    GridPane navigationLayout = (GridPane) loaderNav.load();
-
-    navigationLayout.setAlignment(Pos.TOP_LEFT);
-
-    loaderMain.setLocation(MainApp.class.getResource(Routes.LIBRARY));
-    BorderPane libraryLayout = (BorderPane) loaderMain.load();
-
-    splitLayout.getItems().addAll(navigationLayout, libraryLayout);
     return scrollLayout;
   }
 
@@ -522,18 +574,61 @@ public class MainApp extends Application {
    */
   private void initLibraryViewController(FXMLLoader loaderMain) {
 
-    // Carga del controlador home
+    // Carga del controlador library
     LibraryViewController libraryViewController = loaderMain.getController();
     libraryViewController.setAppUser(appUser);
     libraryViewController.setMainApp(this);
-    libraryViewController.setUserGameClient(userGameClient);
     libraryViewController.getTglbtnAll().setSelected(true);
+    libraryViewController.setUserGameResponse(userGameResponse);
 
     // Carga de eventos
     libraryViewController.setSearchBarTimeLine();
 
     libraryViewController.chargeBaseData();
     libraryViewController.chargeData();
+  }
+
+  /** Carga los datos iniciales en caso de ser necesarios (primera carga de la vista home) */
+  private void chargeInitialData() {
+
+    try {
+      if (userGameResponse == null) {
+        userGameResponse = userGameClient.getUserGamesByUserId(OpenFeignConstants.SECRET_KEY, appUser.getId());
+      }
+
+    } catch (ResourceNotFoundException e) {
+      userGameResponse = new UserGameResponse();
+      userGameResponse.setGames(new ArrayList<>());
+      userGameResponse.setPageNumber(1);
+      userGameResponse.setCount(0);
+    }
+
+  }
+
+  /**
+   * Inicializa el controlador de la vista del juego
+   * 
+   * @param loaderGame Loader de la vista
+   * @param game       Juego a mostrar
+   * @param prevPage   Página previa al cambio de ventana
+   */
+  private void initGameViewController(FXMLLoader loaderGame, Game game, NavigationPage prevPage) {
+
+    // Carga del controlador del juego
+    GameViewController gameViewController = loaderGame.getController();
+    gameViewController.setUserGameClient(userGameClient);
+    gameViewController.setAppUser(appUser);
+
+    gameViewController.setMainApp(this);
+    gameViewController.setPrevPage(prevPage);
+
+    gameViewController.setGame(game);
+    gameViewController.setUserGameResponse(userGameResponse);
+
+    // Carga de datos y eventos
+    gameViewController.setData();
+    gameViewController.prepareUserGameButtons();
+
   }
 
 }
