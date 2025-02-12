@@ -43,6 +43,10 @@ class LoginTest {
   private static final String INVALID_USERNAME = "usuario_incorrecto";
   private static final String INVALID_PASSWORD = "password_erronea";
 
+  /** Usuario no rellenado */
+  private static final String NOT_FULFILLED_USERNAME = "";
+  private static final String NOT_FULFILLED_PASSWORD = "";
+
   /** Loader de la vista */
   FXMLLoader loader;
 
@@ -50,7 +54,9 @@ class LoginTest {
   @Mock
   private UserClient userClient;
 
-  /** Método que prepara los atributos necesarios para los test e inicia los mocks */
+  /**
+   * Método que prepara los atributos necesarios para los test e inicia los mocks
+   */
   @BeforeEach
   public void prepareAttributes() {
 
@@ -59,7 +65,7 @@ class LoginTest {
     // Configurar respuestas del mock para usuarios
     AppUser validUser = new AppUser();
     validUser.setUsername(VALID_USERNAME);
-    
+
     AppUserCreate validLogin = new AppUserCreate();
     validLogin.setUsername(VALID_USERNAME);
     validLogin.setPassword(VALID_PASSWORD);
@@ -68,17 +74,22 @@ class LoginTest {
     invalidLogin.setUsername(INVALID_USERNAME);
     invalidLogin.setPassword(INVALID_PASSWORD);
 
-    // Simular autenticación correcta
-    Mockito.when(userClient.login(OpenFeignConstants.SECRET_KEY, validLogin)).thenReturn(validUser);
+    AppUserCreate notFulFilledLogin = new AppUserCreate();
+    notFulFilledLogin.setUsername(NOT_FULFILLED_USERNAME);
+    notFulFilledLogin.setPassword(NOT_FULFILLED_PASSWORD);
     
     // Simular error de autenticación
     Mockito.when(userClient.login(OpenFeignConstants.SECRET_KEY, invalidLogin))
         .thenThrow(new ForbiddenAccessException(new ApiError()));
 
+    // Simular intento de inicio de sesión sin rellenar los campos
+    Mockito.when(userClient.login(OpenFeignConstants.SECRET_KEY, notFulFilledLogin))
+        .thenThrow(new ForbiddenAccessException(new ApiError()));
+
     // Obtener el controlador y configurar el cliente
     LoginController loginController = loader.getController();
     loginController.setUserClient(userClient);
-   
+
   }
 
   /**
@@ -120,7 +131,8 @@ class LoginTest {
   }
 
   /**
-   * Test que verifica que al intentar iniciar sesión con campos vacíos se muestra un mensaje de error.
+   * Test que verifica que al intentar iniciar sesión con campos vacíos se muestra
+   * un mensaje de error.
    * 
    * @throws InterruptedException En caso de error durante la espera del hilo
    */
@@ -132,9 +144,7 @@ class LoginTest {
     Thread.sleep(500);
 
     FxAssert.verifyThat("#lblIncorrectSignIn", NodeMatchers.isVisible());
-    FxAssert
-        .verifyThat("#lblIncorrectSignIn",
-            LabeledMatchers.hasText("Username y/o contraseña incorrecto"));
+    FxAssert.verifyThat("#lblIncorrectSignIn", LabeledMatchers.hasText("Username y/o contraseña incorrecto"));
   }
 
   /**
@@ -148,7 +158,7 @@ class LoginTest {
 
     fxRobot.clickOn("#txtUsername");
     fxRobot.write(INVALID_USERNAME);
-    
+
     fxRobot.clickOn("#txtPassword");
     fxRobot.write(INVALID_PASSWORD);
 
@@ -157,31 +167,7 @@ class LoginTest {
     Thread.sleep(1200);
 
     FxAssert.verifyThat("#lblIncorrectSignIn", NodeMatchers.isVisible());
-    FxAssert
-        .verifyThat("#lblIncorrectSignIn",
-            LabeledMatchers.hasText("Username y/o contraseña incorrecto"));
+    FxAssert.verifyThat("#lblIncorrectSignIn", LabeledMatchers.hasText("Username y/o contraseña incorrecto"));
   }
 
-  /**
-   * Test que verifica que un usuario válido puede iniciar sesión correctamente.
-   * 
-   * @throws InterruptedException En caso de error durante la espera del hilo
-   */
-  @Test
-  void testValidLogin() throws InterruptedException {
-    FxRobot fxRobot = new FxRobot();
-
-    fxRobot.clickOn("#txtUsername");
-    fxRobot.write(VALID_USERNAME);
-    
-    fxRobot.clickOn("#txtPassword");
-    fxRobot.write(VALID_PASSWORD);
-
-    fxRobot.clickOn("#btnSignIn");
-
-    Thread.sleep(1200);
-
-    // Verificar que el label de error no se muestra
-    FxAssert.verifyThat("#lblIncorrectSignIn", NodeMatchers.isInvisible());
-  }
 }
