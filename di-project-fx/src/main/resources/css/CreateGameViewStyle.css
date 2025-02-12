@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap');
+
+.root {
+    -fx-font-family: "Mona Sans";
+    -fx-background-color: linear-gradient(to bottom, #2c2c2c, #3a3a3a, #454545, #2c2c2c);
+}
+
+.label {
+    -fx-text-fill: white;
+}
+
+/*Customización del calendario*/
+DatePicker {
+    -fx-primary-color: #fe6927;
+    -fx-secondary-color: #c26000;
+    -fx-light-grey-color: #d1d1d1;
+    /*Color al pulsar el calendario*/
+    -fx-focus-color: -fx-secondary-color;
+    /*Aumento del tamaño de la fuente*/
+    -fx-font-size: 1.1em;
+}
+/*-----------------------------------------
+Customize del color de fondo del botón derecho
+-------------------------------------------*/
+.date-picker .arrow-button {
+    -fx-background-color: -fx-primary-color;
+    -fx-background-radius: 0;
+}
+
+.date-picker .arrow-button:hover {
+    -fx-background-color: -fx-secondary-color;
+}
+
+.date-picker .arrow-button .arrow {
+    -fx-background-color: white;
+}
+
+/*-----------------------------------------
+Customize popup content
+-------------------------------------------*/
+.date-picker .cell {
+    -fx-background-color: white;
+}
+
+.date-picker .cell:hover {
+    -fx-background-color: -fx-primary-color;
+}
+
+.date-picker .cell:focused {
+    -fx-background-color: -fx-primary-color;
+}
+
+/*-----------------------------------------
+Customize de la celda seleccionada
+-------------------------------------------*/
+.date-picker .selected {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}
+
+.date-picker .selected:focused {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}
+
+.date-picker-popup {
+    -fx-border-color: transparent;
+}
+
+.date-picker-popup .month-year-pane {
+    -fx-background-color: -fx-primary-color;
+}
+
+.date-picker-popup .month-year-pane .label {
+    -fx-text-fill: white;
+}
+
+.date-picker-popup .week-number-cell {
+    -fx-text-fill: -fx-secondary-color;
+}
+
+/*-----------------------------------------
+Customización de las flechas derecha e izquierda
+-------------------------------------------*/
+.date-picker-popup .spinner .button .left-arrow,
+.date-picker-popup .spinner .button .right-arrow {
+    -fx-background-color: #c2d70e;
+}
+
+/*Error por campos no seleccionados*/
+#lblIncorrectFields {
+    -fx-text-fill: #bf0000;
+    -fx-font-weight: bold;
+}
+
+Button {
+    -fx-background-color: #ff6600;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-background-radius: 40px;
+    -fx-padding: 10px 20px;
+}
+
+Button:hover {
+    -fx-background-color: #e65c00;
+}
