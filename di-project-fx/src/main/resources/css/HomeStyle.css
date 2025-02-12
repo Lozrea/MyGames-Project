@@ -17,7 +17,6 @@
     -fx-font-size: 14px;
     -fx-prompt-text-fill: #FFFFFF; /* Texto de ayuda blanco */
 	-fx-text-fill: #FFFFFF; /* Texto de escritura blanco */
-	-fx-border-color: transparent; /* Sin borde */
 }
 
 #searchBar:focused {
