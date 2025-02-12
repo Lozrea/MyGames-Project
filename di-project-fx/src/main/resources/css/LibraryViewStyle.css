@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap');
+
+/* General styles */
+.root {
+    -fx-font-family: "Mona Sans";
+    
+}
+
+#bkBorderPane {
+    -fx-background-color: #121922; /* Fondo oscuro */
+}
+/* Barra superior de búsqueda */
+#searchBar {
+    -fx-background-color: #61666B; /* Fondo gris */
+    -fx-background-radius: 20px;
+    -fx-padding: 10px 20px;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #FFFFFF; /* Texto de ayuda blanco */
+	-fx-text-fill: #FFFFFF; /* Texto de escritura blanco */
+}
+
+#searchBar:focused {
+    -fx-effect: dropshadow(three-pass-box, rgba(194, 110, 2, 0.653), 10, 0, 0, 0);
+    -fx-border-width: 2;
+}
+
+/* Etiquetas y textos */
+#lblMiBiblioteca {
+    -fx-font-weight: bold;
+}
+
+#lblOrdenarPor {
+    -fx-text-fill: white;
+}
+
+#labelUsernameConfig {
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+/* Botones de filtro */
+.toggle-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #fe6927;
+    -fx-border-color: #fe6927;
+    -fx-border-radius: 20;
+    -fx-padding: 5 15;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #fe6927;
+    -fx-text-fill: white;
+    -fx-border-radius: 20;
+}
+
+/* Botón de agregar juego */
+#btnNewGame {
+    -fx-background-color: transparent;
+    -fx-text-fill: #fe6927;
+    -fx-border-color: #fe6927;
+    -fx-border-radius: 20;
+    -fx-font-size: 18;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+}
+
+#btnNewGame:hover {
+    -fx-background-color: #ff884d;
+    -fx-border-radius: 20;
+}
+
+/* Grid de juegos */
+#gridPaneGames {
+    -fx-padding: 20px;
+}
+
+/* Panel de paginación */
+#borderPanePagination {
+    -fx-alignment: center;
+    -fx-text-fill: white;
+}
